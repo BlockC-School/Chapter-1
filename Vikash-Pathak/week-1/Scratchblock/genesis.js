@@ -11,5 +11,4 @@ const GENESIS_DATA = {
 console.log(GENESIS_DATA);
 module.exports = { GENESIS_DATA };
 
-console.log(`this is working ${module.exports.GENESIS_DATA}`);
-// create a first genesis block
+console.log(`this is working ${GENESIS_DATA}`);
