@@ -31,6 +31,11 @@ async function main() {
 
   console.log("Whole EmployeeDictionary is: ", employeeDictionary);
   console.log("EmployeeDictionary deployed to:", employeeDictionary.address);
+
+  const accounts = await hre.ethers.getSigners();
+  for (let account of accounts) {
+    console.log(account.address);
+  }
   // employeeDictionary.
   // console.log("Function1:", await greeter.greet());
 }
