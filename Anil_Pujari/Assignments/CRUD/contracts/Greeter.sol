@@ -43,4 +43,8 @@ contract EmployeeDetails {
         employees[empId].empID = empId;
         return "Employee Updated";
     }
+
+    function DeleteEmp(uint empID) public {
+        delete employees[empID];
+    } 
 }
