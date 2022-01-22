@@ -14,30 +14,23 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const EmployeeDictionary = await hre.ethers.getContractFactory(
-    "EmployeeDictionary",
-  );
-  const employeeDictionary = await EmployeeDictionary.deploy();
+  const Greeter = await hre.ethers.getContractFactory("Employee");
+  const greeter = await Greeter.deploy();
 
-  await employeeDictionary.deployed();
+  // await greeter.addEmployeeData('Rohan', 24, 'xyz.com', '0xeb4Ced65D86301E9E75478D4712dFb968DD1985b')
+  // const data = await greeter.getAllEmployeeData()
+  // await greeter.editEmployeeData(0, 'Ranjan', 25, 'xyza.com', '0xeb4Ced65D86301E9E75478D4712dFb968DD1985b' )
+  // console.log('Before Edit Data is => ', data)
+  // const newData = await greeter.getAllEmployeeData()
+  // console.log('After Edit Data is => ', newData)
+  // await greeter.deleteEmployeeData(0)
+  // const deleteData = await greeter.getAllEmployeeData()
+  // console.log('After Delete Data is => ', deleteData)
 
-  // const add = await employeeDictionary.addEmployee(
-  //   "Suman",
-  //   "suman@gmail.com",
-  //   23,
-  //   "0x8a210cfc20504cae244a12eb6b6d39556e6a1e58",
-  // );
-  // console.log(add);
 
-  console.log("Whole EmployeeDictionary is: ", employeeDictionary);
-  console.log("EmployeeDictionary deployed to:", employeeDictionary.address);
+  // await greeter.deployed();
 
-  const accounts = await hre.ethers.getSigners();
-  for (let account of accounts) {
-    console.log(account.address);
-  }
-  // employeeDictionary.
-  // console.log("Function1:", await greeter.greet());
+  console.log("Greeter deployed to:", greeter.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
