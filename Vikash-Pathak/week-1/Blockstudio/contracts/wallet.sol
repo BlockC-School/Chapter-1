@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.2;
+pragma solidity ^0.8.0;
 
 contract wallet {
 
@@ -13,7 +13,7 @@ contract wallet {
         owner = msg.sender;
     }
 
-    function deposit(address payable _to, uint _amount) public payable {
+    function deposit(address payable , uint ) public payable {
         emit Deposit(msg.sender, msg.value ,address(this).balance);
         // uint balance = address(this).balance;
 

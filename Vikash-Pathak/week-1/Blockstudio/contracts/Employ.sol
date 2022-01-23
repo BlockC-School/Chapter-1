@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.6;
+pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 
 contract Employe {
@@ -17,11 +17,11 @@ contract Employe {
         wallets = _walletAddress;
     }
 
-    function getId(string memory _name) public view returns (uint) {
+    function getId(string memory) public view returns (uint) {
         return id;
     }
 
-    function getEmployee(uint _id) public view returns (uint, string memory, string memory, uint, address) {
+    function getEmployee(uint ) public view returns (uint, string memory, string memory, uint, address) {
         return (id, name, email, age, wallets);
     }
     
