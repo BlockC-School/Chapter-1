@@ -14,31 +14,12 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  console.log(process.env.RINKEBY_URL);
-  const EmployeeDictionary = await hre.ethers.getContractFactory(
-    "EmployeeDictionary",
-  );
-  const employeeDictionary = await EmployeeDictionary.deploy();
+  const Greeter = await hre.ethers.getContractFactory("Greeter");
+  const greeter = await Greeter.deploy("Hello, Hardhat!");
 
-  await employeeDictionary.deployed();
+  await greeter.deployed();
 
-  // const add = await employeeDictionary.addEmployee(
-  //   "Suman",
-  //   "suman@gmail.com",
-  //   23,
-  //   "0x8a210cfc20504cae244a12eb6b6d39556e6a1e58",
-  // );
-  // console.log(add);
-
-  console.log("Whole EmployeeDictionary is: ", employeeDictionary);
-  console.log("EmployeeDictionary deployed to:", employeeDictionary.address);
-
-  const accounts = await hre.ethers.getSigners();
-  for (let account of accounts) {
-    console.log(account.address);
-  }
-  // employeeDictionary.
-  // console.log("Function1:", await greeter.greet());
+  console.log("Greeter deployed to:", greeter.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

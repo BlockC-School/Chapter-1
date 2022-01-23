@@ -13,11 +13,16 @@ const initState = {
 
 export const Home = () => {
   const [empDetails, setEmpDetails] = useState(initState);
+  const [empId, setEmpId] = useState("");
+  const [delteEmpId, setDeleteEmpId] = useState("");
 
   const [wallet, setWallet] = useState(null);
+  const [contract, setContract] = useState({});
   const [displayButton, setDisplayButton] = useState("Add Employee");
 
-  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const contractAddress = "0xe655c414D991aFD6E6779b59B15cf87bd5F922D5";
+  // const provider = new ethers.getDefaultProvider(4);
+  // const signer = provider.getSigner();
 
   const { name, email, age, walletAddress } = empDetails;
 
@@ -48,26 +53,80 @@ export const Home = () => {
     }
   };
 
-  const handleAddEmployee = async () => {
-    if (window.ethereum) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const contract = new ethers.Contract(
-        contractAddress,
-        EmployeeDictionaryAbi.abi,
-        signer,
-      );
-
-      try {
-        const response = await contract.getAllEmployees();
-        console.log(response);
-      } catch (e) {
-        console.log("Error", e);
-      }
-    }
+  const connectContract = () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
+      contractAddress,
+      EmployeeDictionaryAbi.abi,
+      signer,
+    );
+    setContract(contract);
+    // return contract;
+    // console.log(contract.addEmployee);
   };
 
-  useEffect(() => connectAccounts(), []);
+  const handleAddEmployee = async () => {
+    // if (window.ethereum) {
+    //   const provider = new ethers.providers.Web3Provider(window.ethereum);
+    //   const signer = provider.getSigner();
+    //   const contract = new ethers.Contract(
+    //     contractAddress,
+    //     EmployeeDictionaryAbi.abi,
+    //     signer,
+    //   );
+
+    //   try {
+    //     const response = await contract.getAllEmployees();
+    //     console.log(response);
+    //   } catch (e) {
+    //     console.log("Error", e);
+    //   }
+    // }
+
+    const { name, email, age, walletAddress } = empDetails;
+    const { addEmployee } = contract;
+    const res = await addEmployee(name, email, age, walletAddress);
+    console.log(res);
+
+    const decodedRes = await ethers.utils.defaultAbiCoder.decode(
+      ["uint256"],
+      ethers.utils.hexDataSlice(res.data, 1),
+    );
+    console.log("Returning from Add Employees,", decodedRes[0]);
+
+    console.log(
+      "Returning from Add Employees, toString : ",
+      decodedRes[0].toString(),
+    );
+    // console.log(
+    //   "Returning from Add Employees, toNumber : ",
+    //   decodedRes.toFixed(),
+    // );
+  };
+
+  const handleGetAllEmployees = async () => {
+    console.log("Hoo");
+    const { getAllEmployees } = contract;
+    const res = await getAllEmployees();
+    console.log("Returning from Get All Employees: ", res);
+  };
+
+  const handleGetEmployee = async () => {
+    const { getEmployee } = contract;
+    const res = await getEmployee(empId);
+    console.log("Returning from Get Employee: ", res);
+  };
+
+  const handleDeleteEmployee = () => {
+    const { deleteEmployee } = contract;
+    console.log("Hiii");
+    deleteEmployee(BigNumber.from(empId)).then((res) => {
+      handleGetAllEmployees();
+    });
+  };
+
+  useEffect(() => connectContract(), []);
 
   return (
     <div>
@@ -114,6 +173,44 @@ export const Home = () => {
       <Button variant="contained" onClick={handleSubmit}>
         {displayButton}
       </Button>
+      <br />
+      <br />
+      <Button variant="contained" onClick={handleGetAllEmployees}>
+        Get All Employee
+      </Button>
+      <br />
+      <br />
+      <br />
+      <br />
+      <TextField
+        label="Employee Id"
+        type="text"
+        name="empId"
+        onChange={(e) => setEmpId(e.target.value)}
+        value={empId}
+      />
+      <br />
+      <br />
+      <Button variant="contained" onClick={handleGetEmployee}>
+        Get the Employee
+      </Button>
+
+      <br />
+      <br />
+      <br />
+      <br />
+      {/* <TextField
+        label="Employee Id"
+        type="text"
+        name="empId"
+        onChange={(e) => setDeleteEmpId(e.target.value)}
+        value={delteEmpId}
+      />
+      <br />
+      <br />
+      <Button variant="contained" onClick={handleDeleteEmployee}>
+        Delete the Employee
+      </Button> */}
     </div>
   );
 };
