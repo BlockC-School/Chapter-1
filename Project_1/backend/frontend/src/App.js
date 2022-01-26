@@ -2,11 +2,12 @@ import React from "react";
 import {ethers} from "ethers";
 import Employee from "./Employee.json"
 
-const contractAddress = '0x5fbdb2315678afecb367f032d93f642f64180aa3';
-const accountAdress = '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266'
-const privateKey = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80'
-const delpoyeContractAdress = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
-const publicAddress = '0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc'
+const contractAddress = '0x8230d15fED1e2E5EE9473851602265c3CEE199Fa';
+const accountAdress = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
+const KEY = process.env.REACT_APP_PRIAVTE_KEY || ''
+
+const provider = ethers.getDefaultProvider(4)
+const wallet = new ethers.Wallet(KEY, provider);
 
 const form = {
   name: '',
@@ -20,13 +21,8 @@ function App() {
   const [userForm, setUserForm] = React.useState(form)
 
   React.useEffect(() => {
-    // requestAccount()
     fetchEmployeeData()
   }, [])
-
-  const requestAccount = async () => {
-    await window.ethereum.request({method: accountAdress})
-  }
 
   const handelChange = (e) => {
     const {name, value} = e.target
@@ -34,35 +30,28 @@ function App() {
   }
 
   const addEmployee = async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      await requestAccount()
-      const provider = new ethers.providers.Web3Provider(window.ethereum, 'any')
-      const signer = provider.getSigner()
-      const contract = new ethers.Contract(contractAddress, Employee.abi, signer)
-      try {
-        const {name, age, email, walletAdress} = userForm
-        const trans = await contract.addEmployeeData(name, age, email, walletAdress)
-        await trans.wait()
-        setUserForm(form)
-        fetchEmployeeData()
-      } catch (err) {
-        console.log("Error from : addEmployee ", err)
-      }
-    }    
+    const signer  = wallet.connect(provider)
+    const contract = new ethers.Contract(contractAddress, Employee.abi, signer)
+    try {
+      const {name, age, email, walletAdress} = userForm
+      const trans = await contract.addEmployeeData(name, age, email, walletAdress)
+      await trans.wait()
+      setUserForm(form)
+      fetchEmployeeData()
+    } catch (err) {
+      console.log("Error from : addEmployee ", err)
+    }
   }
 
   const fetchEmployeeData = async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const contract = new ethers.Contract(contractAddress, Employee.abi, provider)
-      try {
-        const data = await contract.getAllEmployeeData()
-        console.log('Data is => ', data)
-        setData(data)
-      } catch (err) {
-        console.log("Error from : fetchEmployeeData ", err)
-      }
-    }    
+    const contract = new ethers.Contract(contractAddress, Employee.abi, provider)
+    try {
+      const data = await contract.getAllEmployeeData()
+      console.log('Data is => ', data)
+      setData(data)
+    } catch (err) {
+      console.log("Error from : fetchEmployeeData ", err)
+    }   
   }
   return (
     <>
