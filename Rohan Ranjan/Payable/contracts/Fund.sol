@@ -7,37 +7,30 @@ contract Fund {
 
 
     uint one = 1000000000000000000;
-    uint amount;
-
-    // function payMe() external payable {
-    //     address payable reciver = payable(address(this));
-    //     reciver.transfer(amount);
-    // }
 
 
-    function payMe() private {
-        address payable reciver = payable(address(this));
-        reciver.transfer(amount);
+   function payEther() public payable {
     }
-
 
     function startTrancsaction(address _address,  uint _ether) public {
         bool status = checkValid(_address, _ether);
-        amount = _ether;
-        uint balContract = getBalance();
+        uint reciverBalance = getBalance();
+        address payable reciver = payable(address(this));
+        console.log('Reciver Address => ', reciver);
         if(status){
-           payMe();
-            console.log('After Transaction Balance is => ', balContract / one );
+            reciver.transfer(_ether);
+            console.log('After Transaction Balance is => ', reciverBalance / one );
         }else{
             console.log(' Insufficent Fund !');
         }
     }
 
     function checkValid(address _address, uint _ether ) private returns(bool) {
-        uint bal = address(_address).balance;
-        uint balContract = getBalance();
-        console.log('Before Transaction Balance is => ', balContract / one );
-        if( (bal/one) < _ether){
+        uint senderBalance = address(_address).balance;
+        uint reciverBalance = getBalance();
+        uint senderEtherValue = senderBalance / one;
+        console.log('Before Transaction Balance is => ', reciverBalance / one);
+        if( senderEtherValue > _ether){
             return true;
         }else{
             return false;
