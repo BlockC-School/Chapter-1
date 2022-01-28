@@ -4,36 +4,62 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 
 contract Escorw {
-    address payable public userA;
+    enum Status {
+        NOT_INITIATED,
+        AWATING_PAYMENT,
+        AWATING_DELIVERY,
+        PROCESS_COMPLETED
+    }
+
+    bool public isUserA;
+    bool public isUserB;
+
+    Status public currentStatus;
+
+    uint public price;
+
     address public userB;
-    bool status = false;
+    address payable public userA;
 
-    constructor(address payable _userA, address _userB) public {
-        userA = _userA;
+    modifier onlyForUserB(){
+        require(msg.sender == userB, "Only UserB can call this function !");
+        _;
+    }
+
+    modifier notStarted(){
+        require(currentStatus == Status.NOT_INITIATED, "Not started yet !");
+        _;
+    }
+
+    constructor(address _userB, address payable _userA, uint _price){
         userB = _userB;
+        userA = _userA;
+        price = _price * (1 ether);
     }
 
-    modifier isUserB() {
-        require(msg.sender == userB, 'Only UserB can call this...');
-        _;
-    }
-
-    modifier isUserA() {
-         require(msg.sender == userA, 'Only UserA can call this...');
-        _;
-    }
-
-    function workCompleted() isUserB public payable {
-        status = true;
-    }
-
-    function transferFund() isUserA public {
-        if(status){
-            userA.transfer(address(this).balance);
-            console.log('Transfer of Fund is completed');
-            status = false;
-        }else{
-            console.log('UserB does not coniform');
+    function initiateContract() notStarted public {
+        if(msg.sender == userB){
+            isUserB = true;
         }
+
+        if(msg.sender == userA){
+            isUserA = true;
+        }
+
+        if(isUserB && isUserA){
+            currentStatus = Status.AWATING_PAYMENT;
+        }
+    }
+
+    function coniformPayment() onlyForUserB payable public {
+        require(currentStatus == Status.AWATING_DELIVERY, "Cannot coniform payment !");
+        userA.transfer(price);
+        currentStatus = Status.PROCESS_COMPLETED;
+    }
+
+    function deposit() onlyForUserB payable public {
+        require(currentStatus == Status.AWATING_PAYMENT, "Already paid !");
+        require(msg.value == price, 'Wrong amount');
+        currentStatus = Status.AWATING_DELIVERY;
     }
 }
