@@ -21,7 +21,7 @@ async function main() {
 
   // console.log("Greeter deployed to:", greeter.address);
   const Payable = await hre.ethers.getContractFactory("Payable");
-  const payable = await Payable.deploy("Hello, Payable!");
+  const payable = await Payable.deploy();
 
   await payable.deployed();
 
