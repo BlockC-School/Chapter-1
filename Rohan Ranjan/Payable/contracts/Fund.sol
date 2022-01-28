@@ -6,39 +6,23 @@ import "hardhat/console.sol";
 contract Fund {
 
 
-    uint one = 1000000000000000000;
+    uint amount;
 
-
-   function payEther() public payable {
-    }
-
-    function startTrancsaction(address _address,  uint _ether) public {
-        bool status = checkValid(_address, _ether);
-        uint reciverBalance = getBalance();
-        address payable reciver = payable(address(this));
-        console.log('Reciver Address => ', reciver);
-        if(status){
-            reciver.transfer(_ether);
-            console.log('After Transaction Balance is => ', reciverBalance / one );
-        }else{
-            console.log(' Insufficent Fund !');
-        }
-    }
-
-    function checkValid(address _address, uint _ether ) private returns(bool) {
-        uint senderBalance = address(_address).balance;
-        uint reciverBalance = getBalance();
-        uint senderEtherValue = senderBalance / one;
-        console.log('Before Transaction Balance is => ', reciverBalance / one);
-        if( senderEtherValue > _ether){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    function getBalance() private view returns(uint) {
+    function checkSufficientFund() private returns(uint) {
         return address(this).balance;
+    }
+
+    function payAmount(address _add, uint _price) public payable returns(string memory){
+        uint contractBalance = checkSufficientFund();
+        contractBalance = contractBalance * (1 ether);
+        amount = _price * (1 ether);
+        address payable payee = payable(address(this));
+        if(amount <= contractBalance){
+            payee.transfer(amount);
+            return "Transfer Complete !";
+        }else{
+            return "Invalid Amount";
+        }
     }
 
 }

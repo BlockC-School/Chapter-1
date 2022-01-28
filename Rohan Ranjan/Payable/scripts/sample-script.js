@@ -16,7 +16,8 @@ async function main() {
   // We get the contract to deploy
   const Greeter = await hre.ethers.getContractFactory("Fund");
   const greeter = await Greeter.deploy();
-  const startTransaction = await greeter.startTrancsaction('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', 1)
+  const startTransaction = await greeter.payAmount('0x5B38Da6a701c568545dCfcB03FcB875f56beddC4', 1)
+  console.log('Transfer Message is => ', startTransaction)
 
   await greeter.deployed();
 
