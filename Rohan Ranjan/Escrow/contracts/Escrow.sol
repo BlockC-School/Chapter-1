@@ -31,6 +31,7 @@ contract Escorw {
         if(status){
             userA.transfer(address(this).balance);
             console.log('Transfer of Fund is completed');
+            status = false;
         }else{
             console.log('UserB does not coniform');
         }
