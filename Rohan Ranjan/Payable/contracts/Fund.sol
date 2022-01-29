@@ -12,13 +12,12 @@ contract Fund {
         return address(this).balance;
     }
 
-    function payAmount(address _add, uint _price) public payable returns(string memory){
+    function payAmount(address payable _add, uint _price) public payable returns(string memory){
         uint contractBalance = checkSufficientFund();
         contractBalance = contractBalance * (1 ether);
         amount = _price * (1 ether);
-        address payable payee = payable(address(this));
         if(amount <= contractBalance){
-            payee.transfer(amount);
+            _add.transfer(amount);
             return "Transfer Complete !";
         }else{
             return "Invalid Amount";
