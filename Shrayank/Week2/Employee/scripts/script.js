@@ -14,12 +14,28 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const Greeter = await hre.ethers.getContractFactory("Greeter");
-  const greeter = await Greeter.deploy("Hello, Hardhat!");
+  const EmployeeDatabase = await hre.ethers.getContractFactory("EmployeeDatabase");
+  const edata = await EmployeeDatabase.deploy();
 
-  await greeter.deployed();
+  await edata.deployed();
 
-  console.log("Greeter deployed to:", greeter.address);
+
+  console.log("Employee Data is deployed to:", edata.address);
+  // Add Employee
+  edata.addEmp("Shrayank", "hrshrayank77@gmail.com", 24, "0xe82c1dcb4Ea572cBcd83d6E28F933F7aea82cB27")
+  
+  // Get Employee
+  console.log("Employee Added as : ", await edata.getEmp(0));
+ 
+  //Update
+  edata.updateEmp(0, "Dhruva", "dhruva@gmail.com", 25, "0xe82c1dcb4Ea572cBcd83d6E28F933F7aea82cB27");
+
+  console.log("Employee updated as : ", await edata.getEmp(0));
+  
+  //Delete
+  edata.deleteEmp(0)
+  console.log("Employee Data is deleted");
+  
 }
 
 // We recommend this pattern to be able to use async/await everywhere
