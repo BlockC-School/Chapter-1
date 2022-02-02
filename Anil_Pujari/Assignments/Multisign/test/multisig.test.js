@@ -1,26 +1,4 @@
-// const Multisig = artifacts.require("Multisig");
 
-// contract("Multisig", (accounts) => {
-//   let wallet;
-//   beforeEach(async () => {
-//     wallet = Multisig.new([accounts[0], accounts[1], accounts[2]], 2);
-//     web3.eth.sendTransaction({
-//       from: accounts[0],
-//       to: wallet.address,
-//       value: 10 ** 18,
-//     });
-//   });
-//   it("Should have correct approvers and threshold", async () => {
-//     const approvers = await wallet.getApprovers();
-//     const threshold = await wallet.threshold();
-
-//     assert(approvers.length === 3);
-//     assert(approvers[0] === accounts[0]);
-//     assert(approvers[1] === accounts[1]);
-//     assert(approvers[2] === accounts[2]);
-//     assert(threshold === 2);
-//   });
-// });
 
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
