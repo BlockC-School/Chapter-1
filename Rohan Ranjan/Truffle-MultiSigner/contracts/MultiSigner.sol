@@ -33,12 +33,12 @@ contract MultiSigner {
     function addOwner(address _add) public returns(string memory){
         bool status = isOnOwnerList(_add);
         if(status){
-            return "You are already is owner list !";
+            return "You are already in owner list !";
         }
         OwnerList memory temp = OwnerList(_add, false, uniqueId);
         owner.push(temp);
         uniqueId++;
-        return "Owner added sucessfully !";
+        return "Owner added successfully !";
     }
 
     modifier onlyOwner(){
