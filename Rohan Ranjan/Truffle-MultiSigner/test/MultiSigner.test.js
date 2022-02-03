@@ -46,5 +46,10 @@ contract("MutltiSigner Testing", (accounts) => {
         const res = await wallet.approveTransaction({from: accounts[2]});
         // console.log("approve res => ", res)
     })
+
+    it("Now Total Ownerlist should be 2", async () => {
+        const OwnerList = await wallet.getAllOwnerList();
+        expect(OwnerList).to.have.lengthOf(2)
+    })
     
 })
