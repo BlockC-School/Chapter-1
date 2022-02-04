@@ -17,6 +17,8 @@
  * phrase from a file you've .gitignored so it doesn't accidentally become public.
  *
  */
+ const path = require('path');
+ contracts_build_directory: path.join(__dirname, "client/src/contracts"),
 
 // const HDWalletProvider = require('@truffle/hdwallet-provider');
 //
