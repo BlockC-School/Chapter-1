@@ -60,41 +60,45 @@ contract("MultiSignerWallet Testing", async (accounts) => {
     assert(owners[owners.length - 1] === accounts[3]);
   });
 
-  //Get Owner Checking
-  it("Get Owner Function will not work if you are not an owner", () => {
-    expectRevert(
-      wallet.getOwners({ from: accounts[4] }), //accounts[3] is not an owner
-      "You are not the Owner",
-    );
-  });
+  // //Get Owner Checking
+  // it("Get Owner Function will not work if you are not an owner", () => {
+  //   expectRevert(
+  //     wallet.getOwners({ from: accounts[4] }), //accounts[3] is not an owner
+  //     "You are not the Owner",
+  //   );
+  // });
   it("Get Owner Function will work if you are an owner", async () => {
     const owners = await wallet.getOwners({ from: accounts[0] });
+    // console.log(owners.length);
     assert(owners.length === 4);
   });
 
   //createTransaction() checking
   it("Create Transaction Function will not work if you are not an owner", () => {
     expectRevert(
-      wallet.createTransaction(accounts[3], 10 ** 18, { from: accounts[4] }),
+      wallet.createTransaction(accounts[3], 1, { from: accounts[4] }),
       "You are not the Owner",
     );
   });
-
-  it("Create Transaction Function will not work if you are not an owner part 2", () => {
+  it("Create Transaction Function will not work if you are not an owner part 2", async () => {
     try {
-      wallet.createTransaction(accounts[3], 10 ** 18, {
+      await wallet.createTransaction(accounts[3], 1, {
         from: accounts[4],
       });
     } catch (e) {
-      console.log(e);
-      assert(e.getMessage() === "You are not the Owner");
+      // console.log(e.reason);
+      assert(e.reason === "You are not the Owner");
     }
   });
   it("Create Transaction Function will work if you are an owner", async () => {
-    const tx = await wallet.createTransaction(accounts[3], 10 ** 18, {
+    const tx = await wallet.createTransaction(accounts[3], 1, {
       from: accounts[0],
     });
-    console.log("Consoling the Transaction", tx);
+    const tx2 = await wallet.createTransaction(accounts[3], 1, {
+      from: accounts[0],
+    });
+    // console.log("Consoling the Transaction", tx);
+    // console.log("Consoling the Transaction2", tx2);
     // assert(tx === 0);
   });
 });

@@ -84,6 +84,7 @@ contract MultiSignerWallet {
 
 
     function createTransaction(address payable _to, uint _amount) external authenticate returns(uint){
+        _amount=_amount*10**18;
         transactions[transactionIndex] = Transaction(transactionIndex, _to, _amount, false, 0);
         transactionIndex ++;
         return transactionIndex - 1;
@@ -112,7 +113,7 @@ contract MultiSignerWallet {
         owners.push(_newOwner);
     }
 
-    function getOwners() external view authenticate returns(address[] memory){
+    function getOwners() external view  returns(address[] memory){
         return owners;
     }
 
