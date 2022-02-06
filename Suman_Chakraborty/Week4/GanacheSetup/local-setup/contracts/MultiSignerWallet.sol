@@ -108,8 +108,6 @@ contract MultiSignerWallet {
     }
 
 
-    
-
     function assignOwner(address _newOwner) external authenticate ifNotAnOwner(_newOwner){
         owners.push(_newOwner);
     }
