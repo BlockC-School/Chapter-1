@@ -79,6 +79,17 @@ contract("MultiSignerWallet Testing", async (accounts) => {
       "You are not the Owner",
     );
   });
+
+  it("Create Transaction Function will not work if you are not an owner part 2", () => {
+    try {
+      wallet.createTransaction(accounts[3], 10 ** 18, {
+        from: accounts[4],
+      });
+    } catch (e) {
+      console.log(e);
+      assert(e.getMessage() === "You are not the Owner");
+    }
+  });
   it("Create Transaction Function will work if you are an owner", async () => {
     const tx = await wallet.createTransaction(accounts[3], 10 ** 18, {
       from: accounts[0],

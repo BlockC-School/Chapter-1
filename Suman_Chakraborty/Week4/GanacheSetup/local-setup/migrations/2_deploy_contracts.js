@@ -7,5 +7,5 @@ module.exports = async (deployer, network, accounts) => {
     { from: accounts[0] },
   );
   const wallet = await MultiSignerWallet.deployed();
-  console.log(wallet);
+  // console.log(wallet);
 };
