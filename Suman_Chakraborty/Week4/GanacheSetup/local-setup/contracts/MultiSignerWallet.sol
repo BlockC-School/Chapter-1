@@ -59,6 +59,19 @@ contract MultiSignerWallet {
         _;
     }
 
+    modifier ifNotAnOwner(address _newOwner){
+        bool isAllowed=true;
+
+        for(uint i=0; i<owners.length; i++){
+            if(owners[i] == _newOwner){
+                isAllowed = false;
+            }
+        }
+
+        require(isAllowed, "New Owner is Already an Owner");
+        _;
+    }
+
     modifier checkSentOrNot(uint _id){
         require(transactions[_id].isSent == false, "Transaction is already Sent");
         _;
@@ -76,15 +89,6 @@ contract MultiSignerWallet {
         return transactionIndex - 1;
     }
 
-
-    function sendTransaction(uint _id) external authenticate checkSentOrNot(_id) checkApprovals( _id){
-        transactions[_id].isSent=true;
-        address payable to=transactions[_id].to;
-        to.transfer(transactions[_id].amount);
-        
-    }
-
-    
     function signTransaction(uint _id) external authenticate{
 
         if(approvals[msg.sender][_id]  == false){
@@ -95,11 +99,18 @@ contract MultiSignerWallet {
         require(approvals[msg.sender][_id], "Already Signed by You...");
     }
 
-  
+
+    function sendTransaction(uint _id) external authenticate checkSentOrNot(_id) checkApprovals( _id){
+        transactions[_id].isSent=true;
+        address payable to=transactions[_id].to;
+        to.transfer(transactions[_id].amount);
+        
+    }
+
 
     
 
-    function assignOwner(address _newOwner) external authenticate{
+    function assignOwner(address _newOwner) external authenticate ifNotAnOwner(_newOwner){
         owners.push(_newOwner);
     }
 
