@@ -1,4 +1,5 @@
 const { expect } = require("chai");
+ const { expectRevert } = require("@openzeppelin/test-helpers");
 
 
 
@@ -6,51 +7,101 @@ const MultiSigner = artifacts.require("MultiSigner");
 
 contract("MutltiSigner Testing", (accounts) => {
     let wallet;
-    it("Get Wallet Address",async () => {
-        wallet = await MultiSigner.new()
+    it("Instatiate Wallet Address with incorrect constructor value",async () => {
+        try{
+            wallet = await MultiSigner.new([], 2);
+        }catch(e){
+            expect(e.reason).to.be.equal("Owners Required !")
+        }
     })
 
-    it("Get All List Of Owners Right There Is No Owner", async () => {
-        const OwnerList = await wallet.getAllOwnerList();
-        expect(OwnerList).to.be.an("array")
+    it("Instatiate Wallet Address with incorrect limit value",async () => {
+        try{
+            wallet = await MultiSigner.new([accounts[0], accounts[1]], 0);
+        }catch(e){
+            expect(e.reason).to.be.equal("Invalid number of required approver's !")
+        }
     })
 
-     it("Add First Owner ", async () => {
-        const res = await wallet.addOwner(accounts[0]);
-        // console.log("res => ", res.value)
-        // expect(res).to.be.equal("Owner added successfully !")
+    it("Instatiate Wallet Address with incorrect value, like same owner 2 times",async () => {
+        try{
+            wallet = await MultiSigner.new([accounts[0], accounts[0]], 2);
+        }catch(e){
+            expect(e.reason).to.be.equal("Owner not unique");
+        }
     })
 
-    it("Check First Owner is equal to accounts[0] or not", async () => {
-        const OwnerList = await wallet.getAllOwnerList();
-        expect(OwnerList[0].ownerAddress).to.be.equal(accounts[0]);
+    it("Instatiate Wallet Address with correct constructor value",async () => {
+        wallet = await MultiSigner.new([accounts[0], accounts[1], accounts[2]], 2);
     })
 
-    it("Add Second Owner ", async () => {
-        const res = await wallet.addOwner(accounts[1]);
-        // console.log("res => ", reciept)
-        // expect(res).to.be.equal("Owner added successfully !")
+    it("Create Transaction without owner", async () => {
+       try{
+            await wallet.submitTransaction(accounts[2], 1, {from: accounts[4]});
+       }catch(e){
+        expect(e.reason).to.be.equal("not owner");
+       }
     })
 
-    it("Check Second Owner is equal to accounts[1] or not", async () => {
-        const OwnerList = await wallet.getAllOwnerList();
-        expect(OwnerList[1].ownerAddress).to.be.equal(accounts[1]);
-    })
+    it("Create Transaction", async () => {
+        await wallet.submitTransaction(accounts[2], 1, {from: accounts[0]});
+     })
 
-    it("Trying to add account[0] as a owner, expect to be error", async () => {
-        const res = await wallet.addOwner(accounts[0]);
-        // console.log("again res => ", res)
-    })
+    it("Conifrom Transaction with wrong transaction ID", async () => {
+        try{
+             await wallet.coniformTransaction(1, {from: accounts[0]});
+        }catch(e){
+         expect(e.reason).to.be.equal("transaction does not exit");
+        }
+     })
 
-    it("Approve transaction", async () => {
-        const res = await wallet.approveTransaction({from: accounts[2]});
-        // console.log("approve res => ", res)
-    })
+     it("Conifrom Transaction with wrong owner", async () => {
+        try{
+             await wallet.coniformTransaction(1, {from: accounts[4]});
+        }catch(e){
+         expect(e.reason).to.be.equal("not owner");
+        }
+     })
 
-    it("Now Total Ownerlist should be 2", async () => {
-        const OwnerList = await wallet.getAllOwnerList();
-        expect(OwnerList).to.have.lengthOf(2)
-    })
-    
+     it("Conifrom Transaction", async () => {
+        try{
+             await wallet.coniformTransaction(0, {from: accounts[0]});
+        }catch(e){
+         expect(e.reason).to.be.equal("not owner");
+        }
+     })
+
+     it("Execute Transaction without min approvers", async () => {
+        try{
+             await wallet.executeTransaction(0);
+        }catch(e){
+         expect(e.reason).to.be.equal("connot execute, some approver's not approve transaction !");
+        }
+     })
+
+     it("Conifrom Transaction", async () => {
+        try{
+             await wallet.coniformTransaction(0, {from: accounts[1]});
+        }catch(e){
+         expect(e.reason).to.be.equal("not owner");
+        }
+     })
+
+     it("Execute Transaction failed", async () => {
+        try{
+             await wallet.executeTransaction(0);
+        }catch(e){
+            expect(e.reason).to.be.equal("transfer failed");
+        }
+     })
+
+     it("Execute Transaction", async () => {
+        try{
+             await wallet.executeTransaction(0, {from: accounts[0]});
+        }catch(e){
+            // expect(e.reason).to.be.equal("transfer failed");
+            console.log(e)
+        }
+     })
 })
 
