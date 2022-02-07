@@ -100,8 +100,34 @@ contract("MutltiSigner Testing", (accounts) => {
              await wallet.executeTransaction(0, {from: accounts[0]});
         }catch(e){
             // expect(e.reason).to.be.equal("transfer failed");
-            console.log(e)
+            // console.log(e)
         }
      })
+
+     it("Add Owner without passing wrong owner", async () => {
+        try{
+            await wallet.addOwner(accounts[3], {from: accounts[4]});
+        }catch(e){
+            expect(e.reason).to.be.equal("not owner");
+        }
+    })
+
+     it("Add Owner in the list", async () => {
+         try{
+             await wallet.addOwner(accounts[3], {from: accounts[0]});
+         }catch(e){
+             console.log(e)
+         }
+     })
+
+     it("Now owner list will be 4", async () => {
+        try{
+           const ownerList =  await wallet.getAllOwnersList();
+           const length = ownerList.length;
+           expect(length).to.be.equal(4);
+        }catch(e){
+            console.log(e)
+        }
+    })
 })
 
