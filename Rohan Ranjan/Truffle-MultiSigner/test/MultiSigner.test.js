@@ -100,7 +100,7 @@ contract("MutltiSigner Testing", (accounts) => {
              await wallet.executeTransaction(0, {from: accounts[0]});
         }catch(e){
             // expect(e.reason).to.be.equal("transfer failed");
-            // console.log(e)
+            console.log(e)
         }
      })
 

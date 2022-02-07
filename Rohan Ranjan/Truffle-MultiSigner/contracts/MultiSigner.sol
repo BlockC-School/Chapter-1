@@ -102,5 +102,6 @@ contract MultiSigner {
         address payable to = txd.to;
         (bool sent, ) = to.call{value: amount}("");
         require(sent, "transfer failed");
+        // to.transfer(amount);
     }
 }

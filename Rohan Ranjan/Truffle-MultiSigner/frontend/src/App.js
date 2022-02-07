@@ -40,7 +40,6 @@ function App() {
 
   const getProvider = async () => {
     const provider = await new ethers.providers.JsonRpcProvider("HTTP://127.0.0.1:7545", 1337);
-    // const wallet = await new ethers.Contract(Abi.networks["5777"].address, Abi.abi, provider);
     // console.log("Provider => ", await provider.listAccounts());
     // console.log("Wallet is => ", wallet);
     return provider
