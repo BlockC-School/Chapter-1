@@ -95,6 +95,7 @@ function App() {
     try{
       let data = await wallet.getTransactionDetails();
       console.log("txd data => ", data)
+      setTransData(data)
     }catch(error){
       console.log("Error getTransactionData : ", error)
     }
@@ -232,8 +233,10 @@ function App() {
     <div style={{width: "100%", border: "2px solid red"}}></div>
     {transData.length !== 0 && <p>Total Transaction: {transData.length} </p>}
     <div>
-      {transData && transData.map((item, index) => <div key={item.to}>
-        <p>{index+1}.)   {item}</p>
+      {transData && transData.map((item, index) => <div key={item.id.toString()}>
+        <p>{index+1}.) {item.to}</p>
+        <span> Status : {item.executed ? "Completed" : "Pending/Rejected"}</span>
+        <p>Transaction Id: {item.id.toString()}</p>
       </div>)}
     </div>
     </>
