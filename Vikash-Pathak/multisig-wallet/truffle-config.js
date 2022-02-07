@@ -51,10 +51,10 @@ module.exports = {
     // Another network with more advanced options...
     advanced: {
     port: 8545,             // Custom port
-    network_id: 1342,       // Custom network
+    network_id: 1337,       // Custom network
     gas: 6700000,           // Gas sent with each transaction (default: ~6700000)
     gasPrice: 100,  // 20 gwei (in wei) (default: 100 gwei)
-    from:0xb79071512b6d14edb6f07d05a37bf5fdf7c5f31ab8f183fd85abe7865ebc50db,        // Account to send txs from (default: accounts[0])
+    from:0xdb58faeb487A4579829Ea4D3629B66F2A53E71F4,        // Account to send txs from (default: accounts[0])
     websocket: true        // Enable EventEmitter interface for web3 (default: false)
     },
     // Useful for deploying to a public network.
