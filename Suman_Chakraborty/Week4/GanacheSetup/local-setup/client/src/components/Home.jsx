@@ -6,29 +6,35 @@ import Button from "@mui/material/Button";
 
 export const Home = () => {
   const [newAddress, setNewAddress] = React.useState("");
-  let provider, wallet, signer;
 
-  const handleConnect = async () => {
-    provider = new ethers.providers.JsonRpcProvider(
+  const handleGetProvider = () => {
+    const provider = new ethers.providers.JsonRpcProvider(
       "HTTP://127.0.0.1:7545",
       5777,
     );
+    return provider;
+  };
 
-    signer = await provider.getSigner();
+  const handleConnect = async () => {
+    const provider = handleGetProvider();
+    const signer = await provider.getSigner();
+    return { signer, provider };
+  };
 
-    console.log(signer);
+  const handleAddNewOwner = async () => {
+    const { signer, provider } = await handleConnect();
+  };
 
-    wallet = new ethers.Contract(
+  const getAllOwners = async () => {
+    const { signer, provider } = handleConnect();
+    const wallet = await new ethers.Contract(
       Wallet.networks["5777"].address,
       Wallet.abi,
       provider,
     );
-
-    console.log(wallet);
-  };
-
-  const handleAddNewOwner = async () => {
-    console.log(await wallet.assignOwner(newAddress));
+    // wallet.getOwners({ from: accounts[0] }).then((res) => {
+    //   console.log(res);
+    // });
   };
 
   React.useEffect(() => {
@@ -45,6 +51,10 @@ export const Home = () => {
       />
       <br />
       <Button variant="contained" onClick={handleAddNewOwner}>
+        Add
+      </Button>
+      <hr />
+      <Button variant="contained" onClick={getAllOwners}>
         Add
       </Button>
     </div>
