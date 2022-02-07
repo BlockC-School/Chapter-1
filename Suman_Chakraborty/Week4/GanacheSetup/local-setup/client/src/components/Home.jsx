@@ -32,9 +32,15 @@ export const Home = () => {
       Wallet.abi,
       provider,
     );
-    // wallet.getOwners({ from: accounts[0] }).then((res) => {
-    //   console.log(res);
-    // });
+
+    const account = new ethers.Wallet(
+      "67c6de2819a793af204c952dbfd75553199a796759543f03798ad7b2d9647a93",
+    );
+    console.log("WALLET", wallet);
+    console.log("ACCOUNT", account);
+
+    const res = await wallet.getOwners({ from: account });
+    console.log(res);
   };
 
   React.useEffect(() => {
@@ -55,7 +61,7 @@ export const Home = () => {
       </Button>
       <hr />
       <Button variant="contained" onClick={getAllOwners}>
-        Add
+        Get All Owners
       </Button>
     </div>
   );
