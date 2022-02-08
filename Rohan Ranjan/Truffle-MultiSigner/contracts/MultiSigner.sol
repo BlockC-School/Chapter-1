@@ -8,100 +8,100 @@ pragma solidity >=0.7.0 <0.9.0;
  */
 contract MultiSigner {
 
-    struct OwnerList {
-        address ownerAddress;
-        bool status;
+    struct Transaction {
+        address payable to;
+        uint value;
+        bool executed;
+        uint limit;
+        uint id;
+        mapping(address => bool) isConiformed;
+    }
+
+    struct Temp {
+        address to;
+        uint value;
+        bool executed;
+        uint limit;
         uint id;
     }
+     Temp[] temp;
+    Transaction[] public transactions;
+    address[] owners;
+    uint public approversLimit;
+    mapping(address => bool) isOwner;
 
-    OwnerList[] public owner;
-    uint public uniqueId;
-
-    constructor(){
-        uniqueId = 0;
-    }
-
-    function isOnOwnerList(address _add) private view returns(bool){
-        for(uint i = 0; i < owner.length; i++){
-            if(owner[i].ownerAddress ==  _add){
-                return true;
-            }
+    constructor(address[] memory _owner, uint _limit){
+        require(_owner.length > 0, "Owners Required !");
+        require(_limit > 0 && _limit <= _owner.length, "Invalid number of required approver's !");
+        for(uint i = 0; i < _owner.length; i++){
+            address owner = _owner[i];
+            require(owner != address(0), "Invalid Owner !");
+            require(!isOwner[owner], "Owner not unique");
+            isOwner[owner] = true;
+            owners.push(owner);
         }
-        return false;
-    }
-
-    function addOwner(address _add) public returns(string memory){
-        bool status = isOnOwnerList(_add);
-        if(status){
-            return "You are already in owner list !";
-        }
-        OwnerList memory temp = OwnerList(_add, false, uniqueId);
-        owner.push(temp);
-        uniqueId++;
-        return "Owner added successfully !";
+        approversLimit = _limit;
     }
 
     modifier onlyOwner(){
-        bool status = isOnOwnerList(msg.sender);
-        require(status == true, "You are not in owner list !");
+        require(isOwner[msg.sender], "not owner");
         _;
     }
 
-    modifier isOnOwnerListThere(){
-        require(owner.length != 0, "There should be minimum one owner list");
+    modifier txExits(uint _txId){
+        require(_txId < transactions.length, "transaction does not exit");
         _;
     }
 
-    function approved(address _add) private {
-        for(uint i = 0; i < owner.length; i++){
-            if(owner[i].ownerAddress ==  _add){
-                owner[i].status = true;
-            }
-        }
+    modifier notExecuted(uint _txId){
+        require(!transactions[_txId].executed, "transaction already executed");
+        _;
     }
 
-    function approveTransaction() public returns(string memory){
-        bool status = isOnOwnerList(msg.sender);
-        if(status){
-            approved(msg.sender);
-            return "Approved";
-        }else{
-             return "You are not in ower list, addyourself";
-        }
+    modifier notConiform(uint _txId){
+        require(!transactions[_txId].isConiformed[msg.sender], "transaction already coniformed");
+        _;
     }
 
-    function allOwnersAreApproved() private view returns(uint){
-        uint count = 0;
-        for(uint i = 0; i < owner.length; i++){
-            if(owner[i].status == true){
-                count++;
-            }
-        }
-
-        return count;
+    function addOwner(address _add) public onlyOwner{
+        owners.push(_add);
     }
 
-    function setStatusBack() private view {
-        for(uint i = 0; i < owner.length; i++){
-            owner[i].status == false;
-        }
+    function getAllOwnersList() public view returns(address[] memory){
+        return owners;
     }
 
-    function getAllOwnerList() public view returns(OwnerList[] memory){
-        return owner;
+    function getTransactionDetails() public view returns(Temp[] memory){
+        return temp;
     }
 
-    function transaction(address payable reciver, uint _amount) public payable returns(string memory){
-        uint count = allOwnersAreApproved();
-        if(count == owner.length){
-             uint price = _amount * (1 ether);
-            reciver.transfer(price);
-            setStatusBack();
-            return "Transaction sucessfully completed !";
-        }else{
-            return "Some owner's not approved";
-        }
+    function submitTransaction(address payable _to, uint _value) public onlyOwner {
+        uint nextId = transactions.length;
+        Transaction storage txd = transactions.push();
+        txd.to = _to;
+        txd.value = _value;
+        txd.id = nextId;
+        txd.executed = false;
+        txd.limit = 0;
 
+        Temp memory t1 = Temp(_to, _value, false, 0, nextId);
+        temp.push(t1);
     }
 
+    function coniformTransaction(uint _txId) public onlyOwner txExits(_txId) notExecuted(_txId) notConiform(_txId) {
+        Transaction storage txd = transactions[_txId];
+        txd.isConiformed[msg.sender] = true;
+        txd.limit += 1;
+    }
+
+    function executeTransaction(uint _txId) public onlyOwner txExits(_txId) notExecuted(_txId){
+        Transaction storage txd = transactions[_txId];
+        require(txd.limit >= approversLimit, "connot execute, some approver's not approve transaction !");
+        txd.executed = true;
+        uint amount = txd.value * 10 ** 18;
+        address payable to = txd.to;
+        (bool sent, ) = to.call{value: amount}("");
+        require(sent, "transfer failed");
+        // to.transfer(amount);
+    }
 }

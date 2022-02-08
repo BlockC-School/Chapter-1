@@ -15,6 +15,7 @@ contract MultiSignWallet {
         address payable to;
         uint[] approvedBy;
         bool isCompleted;
+        uint threshold;
     }
 
     Owner[] internal ownersArr;
@@ -24,7 +25,7 @@ contract MultiSignWallet {
         ownersArr.push(Owner(1, msg.sender));
     }
 
-    function payableFunc() public checkIfOwner payable {
+    function addFund() public checkIfOwner payable {
     }
 
     function addOwner (address _newOwner) public checkIfOwner {
@@ -33,29 +34,29 @@ contract MultiSignWallet {
         return;
     }
 
-    function getTransaction (uint _id) public view returns (uint, address, uint[] memory, bool) {
-        return (transactionArr[_id].amount, transactionArr[_id].to, transactionArr[_id].approvedBy, transactionArr[_id].isCompleted);
+    function getTransaction (uint _id) public view returns (uint, address, uint[] memory, bool, uint) {
+        return (transactionArr[_id].amount, transactionArr[_id].to, transactionArr[_id].approvedBy, transactionArr[_id].isCompleted, transactionArr[_id].threshold);
     }
 
-    function addTransaction (uint _amount, address payable _to) public {
+    function addTransaction (uint _amount, uint _threshold, address payable _to) public checkPossibleThreshold(_threshold) {
         uint newID = transactionArr.length + 1;
         uint[] memory approvalArr;
-        transactionArr.push(Transaction(newID, _amount, _to, approvalArr, false));
+        transactionArr.push(Transaction(newID, _amount, _to, approvalArr, false, _threshold));
         return;
     }
 
-    function approveTransaction (uint _id) public checkIfOwner  checkIfAlreadyApproved(_id) {
+    function approveTransaction (uint _id) public checkIfOwner checkStatus(_id) checkIfAlreadyApproved(_id) payable {
         uint ownerID = searchOwner(msg.sender);
         transactionArr[_id].approvedBy.push(ownerID);
+
+        if(transactionArr[_id].approvedBy.length == transactionArr[_id].threshold){
+            address payable txAddress = transactionArr[_id].to;
+            uint txAmount = transactionArr[_id].amount;
+
+            txAddress.transfer(txAmount);
+            transactionArr[_id].isCompleted = true;
+        }
         return;
-    }
-
-    function releaseFunds (uint _id) public checkIfOwner checkStatus(_id){
-        address payable txAddress = transactionArr[_id].to;
-        uint txAmount = transactionArr[_id].amount;
-
-        txAddress.transfer(txAmount);
-        transactionArr[_id].isCompleted = true;
     }
 
     modifier checkIfAlreadyApproved(uint _id) {
@@ -87,6 +88,14 @@ contract MultiSignWallet {
         }
 
         require(owner == true, "Not an authorized person to perform this action !!");
+        _;
+    }
+
+    modifier checkPossibleThreshold (uint _threshold){
+        if(_threshold > ownersArr.length){
+            revert("Threshold should not be more than owner count !!");
+        }
+
         _;
     }
 
