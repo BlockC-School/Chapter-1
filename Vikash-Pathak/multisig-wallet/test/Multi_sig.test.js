@@ -11,12 +11,20 @@ contract("Multisig", async (accounts) => {
         value: 10 ** 18,
       });
     });
-    // get balance of wallet
     it("should add owners", async () => {
-      console.log(wallet);
-      const addOwner = wallet.addOwner();
       // console.log(wallet);
-      assert.equal(addOwner);
+      const addowner = await wallet.addOwner(accounts[1], 2);
+      // console.log(addowner); 
+      // console.log(wallet);
+      // assert.equal(addowner);
     });
-    
+    it('should deposit funds', async () => {
+      // const deposit = await wallet.deposit(10 ** 18);
+      const deposit = await wallet.deposit(web3.utils.toWei('0.1', 'ether'));
+      // covert the deposit amount to small number
+      assert.equal(deposit.logs[0].args.owner, accounts[0]);
+      // console.log(deposit);
+      // deposit is not working as expected
+
+    })
   });
