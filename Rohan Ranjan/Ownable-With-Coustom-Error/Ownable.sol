@@ -6,6 +6,11 @@ pragma solidity >=0.7.0 <0.9.0;
  */
 
  // Coustom error used for reduce the gas fees.
+ // How we are doing:
+ // exmaple: suppose when we put condition like using require:
+ // ex 1> require(msg.sender == owner, "not owner") // here we have short error message, but suppose we have large error message like:
+ // ex 2> require(msg.sender == owner, "not owner error error error error error") // it will take more gas fees as compare to 1 ex.
+ // here custome error come in picture.
 
 contract Ownable{
 
