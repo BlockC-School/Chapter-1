@@ -23,9 +23,8 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint value);
 }
 
-// ----------------------------------------------------------------------------
-// Safe Math Library
-// ----------------------------------------------------------------------------
+// when we don't want to return inside logic of the code, we can simply write in returns argument with variable name
+
 contract SafeMath {
     function safeAdd(uint a, uint b) public pure returns (uint c) {
         c = a + b;
