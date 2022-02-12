@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-// contract address of my first digit token : 0xb9f78b65BE8F8FB54A112BCdeDbD56664A2DA0d6
+// contract address of my first digit token, deployed on rinkbey network : 0xb9f78b65BE8F8FB54A112BCdeDbD56664A2DA0d6
 
 pragma solidity ^0.8.10;
 
