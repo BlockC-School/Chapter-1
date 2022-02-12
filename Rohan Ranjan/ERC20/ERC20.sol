@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MIT
 
+// contract address of my first digit token : 0xA8D9e3DeCaCBf780fF5639Cc605A38c357664580
+
 pragma solidity ^0.8.10;
 
 
