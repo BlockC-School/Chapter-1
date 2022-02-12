@@ -98,7 +98,7 @@ contract ERC20 is IERC20, SafeMath{
     ) external returns (bool){
         _allowance[sender][msg.sender] = safeSub(_allowance[sender][msg.sender], amount);
         _balanceOf[sender] = safeSub(_balanceOf[sender], amount) ;
-        _balanceOf[recipient] = safeSub(_balanceOf[recipient], amount);
+        _balanceOf[recipient] = safeAdd(_balanceOf[recipient], amount);
         emit Transfer(sender, recipient, amount);
         return true;
     }
