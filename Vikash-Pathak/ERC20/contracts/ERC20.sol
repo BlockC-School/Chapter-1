@@ -2,10 +2,10 @@
 // OpenZeppelin Contracts (last updated v4.5.0) (token/ERC20/ERC20.sol)
 
 pragma solidity ^0.8.11;
-
-// import "./IERC20.sol";
+// "./IERC20.sol";
+import "../contracts/contracts/token/ERC20/IERC20.sol";
 // import "./extensions/IERC20Metadata.sol";
-import "../../utils/Context.sol";
+import "../contracts/contracts/utils/Context.sol";
 
 /**
  * @dev Implementation of the {IERC20} interface.
