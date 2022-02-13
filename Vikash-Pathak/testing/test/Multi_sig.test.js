@@ -4,7 +4,7 @@ const Multisig = artifacts.require('Multi_sig');
 contract("Multisig", async (accounts) => {
     let wallet;
     beforeEach(async () => {
-      wallet = Multisig.new([accounts[0], accounts[1], accounts[2]]);
+      wallet = Multisig.new();
       web3.eth.sendTransaction({
         from: accounts[0],
         to: wallet.address,
@@ -13,7 +13,7 @@ contract("Multisig", async (accounts) => {
     });
     // get balance of wallet
     it("should return the correct balance", async () => {
-      const getbalance = await wallet.balance();
+      const getbalance = await wallet.getbalance();
       assert.equal(getbalance.toNumber(), 10 ** 18);
     });
     
