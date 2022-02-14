@@ -62,11 +62,3 @@ contract SigExample {
         emit Transfer(sender, recipient, amount);
     }
 }
-
-//  tx.sender = msg.sender,
-//         tx.receiver = receiver,
-//         tx.amount = amount,
-//         tx.approvalCount = 0,
-//         tx.approval_TransactionTime = block.timestamp,
-//         transactions.push(tx),
-//     }

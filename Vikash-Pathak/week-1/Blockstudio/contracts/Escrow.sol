@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-contract EscrowCont{
+contract EscrowFactory{
     // Escrow contract that have only one user_A and one user_B
     // user_A is the owner of the contract
     // user_B is the receiver of the contract
@@ -20,8 +20,7 @@ contract EscrowCont{
     constructor () {
         user_A = msg.sender;
     }
-
-    function Deposit(address payer) public onlyOwner payable {
+     function Deposit(address payer) public onlyOwner payable {
         uint256 amount = msg.value;
         deposits[payer] = deposits[payer] + amount;
     }
@@ -32,6 +31,12 @@ contract EscrowCont{
         uint256 payment = deposits[payer];
         deposits[payer] = 0;
         payer.transfer(payment);
-    }
+    } 
     
+}
+
+contract Escrow{
+
+
+
 }
