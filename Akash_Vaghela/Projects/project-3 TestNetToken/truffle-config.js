@@ -17,8 +17,6 @@
  * phrase from a file you've .gitignored so it doesn't accidentally become public.
  *
  */
- const path = require('path');
- contracts_build_directory: path.join(__dirname, "client/src/contracts"),
 
 // const HDWalletProvider = require('@truffle/hdwallet-provider');
 //
@@ -46,7 +44,7 @@ module.exports = {
     development: {
      host: "127.0.0.1",     // Localhost (default: none)
      port: 7545,            // Standard Ethereum port (default: none)
-     network_id: "5777",       // Any network (default: none)
+     network_id: "*",       // Any network (default: none)
     },
     // Another network with more advanced options...
     // advanced: {
@@ -83,7 +81,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.6",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.8.11",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {

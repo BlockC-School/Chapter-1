@@ -8,14 +8,11 @@ contract Escrow_contract {
     bool public is_paid;
     address payable user_B; 
 
-    constructor() {
+    constructor(uint _amount) payable {
         user_A = msg.sender;
+        amount = _amount;
     }
 
-    modifier onlyuser_A() {
-        require(msg.sender == user_A, "Not user_A");
-        _;
-    }
     modifier validAddress(address _addr) {
         require(_addr != address(0), "Not valid address");
         _;
@@ -29,12 +26,9 @@ contract Escrow_contract {
 
      modifier paid() {
         require(!is_paid, "User B is Already Paid");
-        is_paid = false;
         _;
         is_paid = true;
     }
-
-    function payEther() public payable {}
 
     function getBalance() public view  returns (uint) {
         return address(this).balance;
@@ -46,9 +40,7 @@ contract Escrow_contract {
     }
 
     function sentEtherToUser_B(uint _amount, address payable _user_B) public payable validAddress(_user_B) paid work {
-        if(work_done = true) {
-            address payable user = _user_B;
-            user.transfer(_amount);
-        }
+        address payable user = _user_B;
+        user.transfer(_amount);
     }
 }
