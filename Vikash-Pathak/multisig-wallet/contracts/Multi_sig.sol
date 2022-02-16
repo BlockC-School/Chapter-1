@@ -23,7 +23,7 @@ contract Multi_sig{
     mapping (address => mapping (address => uint256)) private _allowances;
     Transaction[] transaction_request;
 
-    event wallet_ownerAdded(address addedyBy, address newOwner, uint index);
+    event wallet_ownerAdded(address addedyBy, address newOwner, uint approvalCount,uint index);
     event wallet_ownerRemoved(address removedBy, address owner_removed, uint index);
     event funds_deposited(address from, uint amount, uint index);
     event funds_withdrawd(address from, uint amount, uint index);
@@ -58,14 +58,14 @@ contract Multi_sig{
     function allowance(address owner, address spender) public view returns (uint256) {
         return _allowances[owner][spender];
     }
-    function addOwner(address owner) public onlyOwner{    
+    function addOwner(address owner,uint approvalCount) public onlyOwner{    
         for (uint i =0; i < walletOwners.length; i++) {
             if (walletOwners[i] == owner) {
                 revert('cannot add duplicate owner');
             }
         }
         walletOwners.push(owner);
-        emit wallet_ownerAdded(msg.sender, owner, walletOwners.length - 1);
+        emit wallet_ownerAdded(msg.sender, owner,approvalCount, walletOwners.length - 1);
     }
     function delOwner(address owner) public onlyOwner {
         bool alreadyDeleted = false;
@@ -85,6 +85,7 @@ contract Multi_sig{
     function deposit(uint amount) public payable onlyOwner{
         require(msg.value >= amount, 'deposit amount must be greater than or equal to the amount');
         require(amount > 0, 'deposit amount must be greater than 0');
+        require(msg.value > .01 ether);
         require(msg.sender == mainOwner, 'only main owner can deposit');
         require(balance[msg.sender] >= msg.value, 'insufficient balance');
         balance[msg.sender] = msg.value;
@@ -139,5 +140,6 @@ contract Multi_sig{
     function getContractBalance() public view returns (uint){
         return address(this).balance;
     }
+    
 }
 

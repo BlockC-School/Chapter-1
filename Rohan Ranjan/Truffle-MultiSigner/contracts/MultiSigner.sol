@@ -16,6 +16,15 @@ contract MultiSigner {
         uint id;
         mapping(address => bool) isConiformed;
     }
+
+    struct Temp {
+        address to;
+        uint value;
+        bool executed;
+        uint limit;
+        uint id;
+    }
+     Temp[] temp;
     Transaction[] public transactions;
     address[] owners;
     uint public approversLimit;
@@ -54,6 +63,18 @@ contract MultiSigner {
         _;
     }
 
+    function addOwner(address _add) public onlyOwner{
+        owners.push(_add);
+    }
+
+    function getAllOwnersList() public view returns(address[] memory){
+        return owners;
+    }
+
+    function getTransactionDetails() public view returns(Temp[] memory){
+        return temp;
+    }
+
     function submitTransaction(address payable _to, uint _value) public onlyOwner {
         uint nextId = transactions.length;
         Transaction storage txd = transactions.push();
@@ -62,6 +83,9 @@ contract MultiSigner {
         txd.id = nextId;
         txd.executed = false;
         txd.limit = 0;
+
+        Temp memory t1 = Temp(_to, _value, false, 0, nextId);
+        temp.push(t1);
     }
 
     function coniformTransaction(uint _txId) public onlyOwner txExits(_txId) notExecuted(_txId) notConiform(_txId) {
@@ -78,5 +102,6 @@ contract MultiSigner {
         address payable to = txd.to;
         (bool sent, ) = to.call{value: amount}("");
         require(sent, "transfer failed");
+        // to.transfer(amount);
     }
 }
