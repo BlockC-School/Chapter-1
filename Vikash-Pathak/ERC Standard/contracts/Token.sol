@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: Unlicensed
-// import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol';
-// import "./IRC20.sol";
-// import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol';
+// import "./IRC20.sol";  // you can use which method is better suitable for you
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-pragma solidity ^0.8.6;
-
+pragma solidity ^0.8.11;
+// I created safe math library but you can also import it from openzeppelin
 library SafeMath {
   function mul(uint256 a, uint256 b) internal pure returns (uint256) {
     if (a == 0) {
