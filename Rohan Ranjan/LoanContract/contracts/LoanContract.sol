@@ -62,7 +62,7 @@ contract LoanContract{
     }
 
     function calculateInterstMoney() public view returns(uint interestAmount) {
-        interestAmount = (amount * rateOfInterest * (duration / 525600)) / (100 * 12) ; // 525600, are used to convert minutes to year
+        interestAmount = amount +  (amount * rateOfInterest * (duration / 525600)) / (100 * 12) ; // 525600, are used to convert minutes to year
     }
 
     function rembuirse() external payable {
