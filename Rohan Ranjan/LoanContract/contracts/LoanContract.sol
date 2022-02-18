@@ -55,7 +55,7 @@ contract LoanContract{
         require(state == State.PENDING, "ThereIsNoLoadIsInitiatedOrActiveLoanNotPaid");
         uint bal = getBalance();
         require(bal > amount, "InsufficientFundInContract");
-        (bool sent, ) = lender.call{value: amount}("");
+        (bool sent, ) = borrower.call{value: amount}("");
         require(sent, "TransactionFailed");
         state = State.ACTIVE;
         durationTimeStamp = block.timestamp;
@@ -74,7 +74,7 @@ contract LoanContract{
         uint bal = getBalance();
         uint interestAmount = calculateInterstMoney();
         require(bal >= interestAmount, "InsufficientFundInContract");
-        (bool sent, ) = borrower.call{value: amount}("");
+        (bool sent, ) = lander.call{value: amount}("");
         require(sent, "TransactionFailed");
         state = State.CLOSED;
     }
