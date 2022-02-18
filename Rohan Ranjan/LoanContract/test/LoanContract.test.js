@@ -132,7 +132,7 @@ contract(" Testing Loan Contract ", (accounts) => {
            await wallet.fund({from: accounts[0], value: 2});
         }catch(error){
             console.log(error.reason);
-            expect(error.reason).to.be.equal("ThereIsNoLoadIsInitiatedOrActiveLoanNotPaid");
+            expect(error.reason).to.be.equal("ThereIsNoLoanIsInitiatedOrActiveLoanNotPaid");
         }
     })
     

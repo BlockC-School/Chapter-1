@@ -52,7 +52,7 @@ contract LoanContract{
 
     function fund() external payable {
         require(msg.sender == lender, "OnlyLenderCallThis");
-        require(state == State.PENDING, "ThereIsNoLoadIsInitiatedOrActiveLoanNotPaid");
+        require(state == State.PENDING, "ThereIsNoLoanIsInitiatedOrActiveLoanNotPaid");
         uint bal = getBalance();
         require(bal > amount, "InsufficientFundInContract");
         (bool sent, ) = borrower.call{value: amount}("");
