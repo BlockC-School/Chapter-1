@@ -74,7 +74,7 @@ contract LoanContract{
         uint bal = getBalance();
         uint interestAmount = calculateInterstMoney();
         require(bal >= interestAmount, "InsufficientFundInContract");
-        (bool sent, ) = lander.call{value: amount}("");
+        (bool sent, ) = lender.call{value: amount}("");
         require(sent, "TransactionFailed");
         state = State.CLOSED;
     }
