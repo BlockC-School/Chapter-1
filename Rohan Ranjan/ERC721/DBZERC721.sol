@@ -8,6 +8,8 @@ import "./ERC721.sol";
 
 // https://testnets.opensea.io/assets/0xc1a4ce8241943586c4715056432bd6caaf80de2c/1/
 
+// Contract address rinkbey test n/w : 0xc1a4ce8241943586c4715056432bd6caaf80de2c
+
 contract DBZERC721 is ERC721 {
 
     string public name;
