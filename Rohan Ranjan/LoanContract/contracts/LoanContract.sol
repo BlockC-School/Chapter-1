@@ -52,17 +52,17 @@ contract LoanContract{
 
     function fund() external payable {
         require(msg.sender == lender, "OnlyLenderCallThis");
-        require(state == State.PENDING, "ThereIsNoLoadIsInitiatedOrActiveLoanNotPaid");
+        require(state == State.PENDING, "ThereIsNoLoanIsInitiatedOrActiveLoanNotPaid");
         uint bal = getBalance();
         require(bal > amount, "InsufficientFundInContract");
-        (bool sent, ) = lender.call{value: amount}("");
+        (bool sent, ) = borrower.call{value: amount}("");
         require(sent, "TransactionFailed");
         state = State.ACTIVE;
         durationTimeStamp = block.timestamp;
     }
 
     function calculateInterstMoney() public view returns(uint interestAmount) {
-        interestAmount = (amount * rateOfInterest * (duration / 525600)) / (100 * 12) ; // 525600, are used to convert minutes to year
+        interestAmount = amount +  (amount * rateOfInterest * (duration / 525600)) / (100 * 12) ; // 525600, are used to convert minutes to year
     }
 
     function rembuirse() external payable {
@@ -74,7 +74,7 @@ contract LoanContract{
         uint bal = getBalance();
         uint interestAmount = calculateInterstMoney();
         require(bal >= interestAmount, "InsufficientFundInContract");
-        (bool sent, ) = borrower.call{value: amount}("");
+        (bool sent, ) = lender.call{value: amount}("");
         require(sent, "TransactionFailed");
         state = State.CLOSED;
     }
