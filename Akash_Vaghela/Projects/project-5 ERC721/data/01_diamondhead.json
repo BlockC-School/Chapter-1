@@ -1,0 +1,32 @@
+{
+    "name": "Diamondhead",
+    "description": "Diamondhead is the Omnitrix's DNA sample of a Petrosapien from the planet Petropia.",
+    "image": "https://ipfs.io/ipfs/QmbZRtTRLaaNUZkuTNt6H3qN6dN93iPPWGbBskj2AhEWbc",
+    "attributes": [
+        {
+            "trait_type": "Crystallokinesis",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Regeneration",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Body Alteration",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Energy Refraction",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Heat Resistance",
+            "value": 8,
+            "max_value": 10
+        }
+    ]
+}

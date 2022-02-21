@@ -1,0 +1,32 @@
+{
+    "name": "Ghostfreak",
+    "description": "Ghostfreak is the Omnitrix's DNA sample of an Ectonurite from the planet Anur Phaetos in the Anur System.",
+    "image": "https://ipfs.io/ipfs/QmdWSwXSunqAehZnjVCumV5Wpv7qH8rZMZMSGZtQuNMGtN",
+    "attributes": [
+        {
+            "trait_type": "Flight",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Levitation",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Deformation",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Density Shifting",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Invisibility",
+            "value": 10,
+            "max_value": 10
+        }
+    ]
+}
