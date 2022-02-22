@@ -1,0 +1,32 @@
+{
+    "name": "Grey Matter",
+    "description": "Grey Matter is the Omnitrix's DNA sample of a Galvan from the planet Galvan Prime.",
+    "image": "https://ipfs.io/ipfs/QmQPRtELheTvSY99oEh8yRMKv2gnTK3Nxg9K9JMJ2VA4wX",
+    "attributes": [
+        {
+            "trait_type": "Enhanced Intelligence",
+            "value": 10,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Enhanced Agility",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Enhanced Jumping",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Wall Crawling",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Underwater Breathing",
+            "value": 7,
+            "max_value": 10
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+{
+    "name": "Heatblast",
+    "description": "Heatblast is the Omnitrix's DNA sample of a Pyronite from the star Pyros.",
+    "image": "https://ipfs.io/ipfs/QmW1koKxKWgDNyUCxnG79tJidEHFCDB4q8f87vETV6kRmD",
+    "attributes": [
+        {
+            "trait_type": "Pyrokinesis",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Fire Absorption",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Fire Surfing",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Heat Generation",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Heat Absorption",
+            "value": 9,
+            "max_value": 10
+        }
+    ]
+}

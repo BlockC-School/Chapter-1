@@ -39,7 +39,7 @@ export const Home = () => {
     console.log("WALLET", wallet);
     console.log("ACCOUNT", account);
 
-    const res = await wallet.getOwners({ from: account });
+    const res = await wallet.getOwners();
     console.log(res);
   };
 

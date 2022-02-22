@@ -1,0 +1,32 @@
+{
+  "name": "Ethereum",
+  "description": "Ethereum is the community-run technology powering the cryptocurrency ether (ETH) and thousands of decentralized applications.",
+  "image": "https://ipfs.io/ipfs/QmXaeURdHVszjDuGCwM7DauTjaASfm8qBZYzETM5ehq7MD",
+  "attributes": [
+    {
+      "trait_type": "Compatible",
+      "value": 8,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Good",
+      "value": 9,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Widely used",
+      "value": 8,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Good Comminity",
+      "value": 7,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Development",
+      "value": 10,
+      "max_value": 10
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+    "name": "Cannonbolt",
+    "description": "Cannonbolt is the Omnitrix's DNA sample of an Arburian Pelarota[1] from the destroyed planet Arburia.",
+    "image": "https://ipfs.io/ipfs/QmNhiwJwiT7Yao8mC8LnoV5fbZyt2Yt9qdMGgPXPaZ1ttP",
+    "attributes": [
+        {
+            "trait_type": "Enhanced Speed",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Sphere Transformation",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Enhanced Strength",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Enhanced Durability",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Enhanced Jumping",
+            "value": 9,
+            "max_value": 10
+        }
+    ]
+}

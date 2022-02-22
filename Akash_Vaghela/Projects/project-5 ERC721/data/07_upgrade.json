@@ -1,0 +1,32 @@
+{
+    "name": "Upgrade",
+    "description": "Upgrade is the Omnitrix's DNA sample of a Galvanic Mechamorph from Galvan Prime's moon, Galvan B.",
+    "image": "https://ipfs.io/ipfs/QmYENNvJcRXb9wzYb18vLCufH9VHcFCEYWtbqTYKWciD2N",
+    "attributes": [
+        {
+            "trait_type": "Technokinesis",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Optic Laser",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Enhancement",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Tentacles",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Elasticity",
+            "value": 9,
+            "max_value": 10
+        }
+    ]
+}

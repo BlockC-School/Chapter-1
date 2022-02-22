@@ -1,0 +1,27 @@
+{
+  "name": "Doraemon_Suman",
+  "description": "Doraemon_Suman directly isn't real but the boy showcased as the co-protagonist Nobita is REAL DEAL.",
+  "image": "https://ipfs.io/ipfs/QmR5jZbJ4KSkWDM88pLnnLdJJ2iq532B2yzYD8V6CzjeUt",
+  "attributes": [
+    {
+      "trait_type": "Strength",
+      "value": 7,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Speed",
+      "value": 9,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Jump",
+      "value": 10,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Intelligence",
+      "value": 6,
+      "max_value": 10
+    }
+  ]
+}

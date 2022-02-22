@@ -105,7 +105,7 @@ contract(" Testing Loan Contract ", (accounts) => {
         try{
            const interest = await wallet.calculateInterstMoney();
            const {words} = interest
-           expect(words[0]).to.be.equal(0)
+           expect(words[0]).to.be.equal(1)
         }catch(error){
             console.log(error);
         }
@@ -131,8 +131,7 @@ contract(" Testing Loan Contract ", (accounts) => {
         try{
            await wallet.fund({from: accounts[0], value: 2});
         }catch(error){
-            console.log(error.reason);
-            expect(error.reason).to.be.equal("ThereIsNoLoadIsInitiatedOrActiveLoanNotPaid");
+            expect(error.reason).to.be.equal("ThereIsNoLoanIsInitiatedOrActiveLoanNotPaid");
         }
     })
     

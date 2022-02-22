@@ -1,0 +1,32 @@
+{
+    "name": "XLR8",
+    "description": "XLR8 (pronounced 'Accelerate') is the Omnitrix's DNA sample of a Kineceleran from the planet Kinet.",
+    "image": "https://ipfs.io/ipfs/QmQawP4QMom5CEJ6vWqCNPDvJZ8Ec4dVwMLZxG5WL8ohvt",
+    "attributes": [
+        {
+            "trait_type": "Enhanced Speed",
+            "value": 10,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Enhanced Stamina",
+            "value": 10,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Enhanced Jumping",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Enhanced Reflexes",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Sharp Claws",
+            "value": 7,
+            "max_value": 10
+        }
+    ]
+}
