@@ -1,0 +1,32 @@
+{
+  "name": "Life@Suman",
+  "description": "A self-motivated individual with problem-solving capability. Seeking an opportunity that allows me to best utilize the skillset and experience within the role of Full-Stack Web Developer.",
+  "image": "https://ipfs.io/ipfs/QmPmRrxy1e5i6Gwxohe8Eb6sR71FtjasykaqE818SgRi8g",
+  "attributes": [
+    {
+      "trait_type": "JavaScript",
+      "value": 8,
+      "max_value": 10
+    },
+    {
+      "trait_type": "React",
+      "value": 9,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Node Js",
+      "value": 8,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Web3",
+      "value": 7,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Development",
+      "value": 10,
+      "max_value": 10
+    }
+  ]
+}

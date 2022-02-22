@@ -1,0 +1,32 @@
+{
+    "name": "Four Arms",
+    "description": "Four Arms (alternatively spelled as Fourarms) is the Omnitrix's DNA sample of a Tetramand from the planet Khoros.",
+    "image": "https://ipfs.io/ipfs/QmVdRLoPYfevMZXrr5EJfQRzLUxxNddnNKVky7s93XjJYm",
+    "attributes": [
+        {
+            "trait_type": "Enhanced Strength",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Enhanced Durability",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Enhanced Agility",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Enhanced Speed",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Enhanced Reflexes",
+            "value": 8,
+            "max_value": 10
+        }
+    ]
+}

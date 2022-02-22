@@ -1,0 +1,32 @@
+{
+    "name": "Ripjaws",
+    "description": "Ripjaws is the Omnitrix's DNA sample of a Piscciss Volann from the planet Piscciss.",
+    "image": "https://ipfs.io/ipfs/QmScVLCG5sju7usy67yBdgD4JHFuGkqBVNvVys2NCfCMFD",
+    "attributes": [
+        {
+            "trait_type": "Underwater Breathing",
+            "value": 10,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Generation",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Speed Swimming",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Steel-Bending Jaws",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Sharp Claws",
+            "value": 8,
+            "max_value": 10
+        }
+    ]
+}

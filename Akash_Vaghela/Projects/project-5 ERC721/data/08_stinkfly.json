@@ -1,0 +1,32 @@
+{
+    "name": "Stinkfly",
+    "description": "Stinkfly is the Omnitrix's DNA sample of a Lepidopterran from the planet Lepidopterra.",
+    "image": "https://ipfs.io/ipfs/Qma3z6Yf1oZS1sxrQhVE83zh6K1aJP3TandMBkjyrpbMT3",
+    "attributes": [
+        {
+            "trait_type": "Flight",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Slime Projectiles",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Methane Gas",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Sharp Claws",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Movable Eyes",
+            "value": 7,
+            "max_value": 10
+        }
+    ]
+}
