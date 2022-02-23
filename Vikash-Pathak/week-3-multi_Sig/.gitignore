@@ -1,3 +1,4 @@
-node_modules
-.vscode
-artifacts
+node_modules/
+.vscode/
+artifacts/
+truffle-config.js
