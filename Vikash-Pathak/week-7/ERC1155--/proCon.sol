@@ -12,13 +12,16 @@ pragma solidity ^0.8.2;
 contract MyProCon is ERC1155 {
     //{balanceOf functions} 1 balanceOf // 2 balanceOfBatch
     //{operator functions} 1 isApprovedForAll // 2 setApprovalForAll
-    // {transfers functiom} 1 safeTransferFrom // 2 safeBatchTransferFrom
+    // {transfers functiom} 1 safeTransferFrom // 2 safeBatchTransferFrom ^ check func that returns process state
     // {interface functions} 1 supportsInterface
 // *******          ****************************            *********
 
     // events 
     event _ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved); 
+    // There are two types of function and event for Single approval and multiple 
     event TransferOnly(address indexed operator, address indexed from, address indexed to, uint256 tokenId, uint256 value);
+    // we use Arrays of ID and Amount to send it reduce the gas fees 
+    event safeTransferBatch(address indexed operator,address indexed from,address indexed to,uint256[] ids,uint256[] values);
     // mapping from accounts to operator approvals
     // Account => Operators Address => Approvals Bool State 
     mapping(address => mapping(address => bool)) private _operatorApprovals;
@@ -77,6 +80,26 @@ contract MyProCon is ERC1155 {
             emit TransferOnly(msg.sender, from, _to, _tokenId, _amount);
 
     }
+    // the checking function that returns trnsfer is received or not
+    function _checkOnERC1155Recieved() internal pure returns(bool) {
+        return true;        
+    }
+    // Batch transfer function
+    function safeBatchTransferFrom(address from, address to, uint256[] memory tokenId, uint256[] memory amount) internal {
+        require(from == msg.sender || isApprovedForAll(from, msg.sender), "Not allow, not an owner and not an approval or operator");
+        require(to != address(0), "Invalid address To is '0' ");
+        require(amount.length == tokenId.length);
+        for(uint256 i = 0; i >= tokenId.length; i++) {
+            uint256 Id = tokenId[i]; // we declare a instance to store arrays 
+            uint256 _amount = amount[i]; // """""""""""
+            SafeTransferFrom(from ,to, Id, _amount); // So we can import here otherwise it will give ~ from uint256[] memory to uint256 requested.
+        }
+        emit TransferBatch(msg.sender, from, to, tokenId, amount);
+
+        require(_checkOnERC1155Recieved(), 'not implemented OR valid');
+    }
+    // And last but not least the main funcion which gives contract for Authenticity of ERC1155
+    function supportsInterface(bytes4 interfaceId) override public pure returns (bool){
+            return interfaceId == 0x80ac58cd; // this the Id of ERC`1155 
+    }
 }
-
-
