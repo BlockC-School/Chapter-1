@@ -1,0 +1,27 @@
+{
+    "name": "Captian_America",
+    "description": "It's one of the character in the Marvel Comic Book",
+    "image": "https://ipfs.io/ipfs/QmdqALB1dEt46Pja1rYe8n3GXaUp7qsw8AZUiX4zrQrxBS/3.png",
+    "attributes": [
+      {
+        "trait_type": "Strength",
+        "value": 7,
+        "max_value": 10
+      },
+      {
+        "trait_type": "Speed",
+        "value": 9,
+        "max_value": 10
+      },
+      {
+        "trait_type": "Jump",
+        "value": 10,
+        "max_value": 10
+      },
+      {
+        "trait_type": "Intelligence",
+        "value": 6,
+        "max_value": 10
+      }
+    ]
+  }
