@@ -2,11 +2,11 @@ const {
     ethers
 } = require("hardhat");
 
-// 0x2B814062F377bF85Dc3f18897Fb31e0ffEb47Eff
+// 0xe6c4796C867Bb019C105EC6246D1c253202183b1
 
 async function main() {
-    const MarvelCollection = await ethers.getContractFactory("MarvelCollection");
-    const MarvelCollection = await MarvelCollection.deploy(
+    const Marvel_Collection = await ethers.getContractFactory("MarvelCollection");
+    const MarvelCollection = await Marvel_Collection.deploy(
         "Marvel_Collection",
         "MRVLC",
         "https://ipfs.io/ipfs/QmdxSssA8WAamxKFnmNExQnf8jZ5WM1UjyAoqZ5nRRcf4k/"
