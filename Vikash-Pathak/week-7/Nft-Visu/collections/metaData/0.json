@@ -1,0 +1,29 @@
+
+
+{
+    "name" : "Army-putt",
+    "description": "Amandeep is a inBuilt Army & Desi putt, and also my puttar ",
+    "image" : "https://ipfs.io/ipfs//.jpg",
+    "attributes": [
+        {
+            "trait_type": "Speed",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Strength",
+            "value": 6,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Jump",
+            "value": 6,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Intelligence",
+            "value": 3,
+            "max_value": 10
+        }
+    ]
+}
