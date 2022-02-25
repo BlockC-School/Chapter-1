@@ -1,1 +1,34 @@
-json
+
+{
+    "name" : "Dup-Putt",
+    "description": "Amandeep is a inBuilt Army & Desi putt, and also my puttar ",
+    "image" : "https://ipfs.io/ipfs/QmcZpyV1Ywi8s9kvHNn3fZ3v9Zyd6ntVLUiFfG3Bzwv4dU/4.png",
+    "attributes": [
+        {
+            "trait_type": "Image Manupulation",
+            "value": 4,
+            "max_value": 6,
+            "steps": "Look"
+        },
+        {
+            "trait_type": "Speed",
+            "value": 4,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Strength",
+            "value": 5,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Changes",
+            "value": 4,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Intelligence",
+            "value": 4,
+            "max_value": 10
+        }
+    ]
+}
