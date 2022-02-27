@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require('dotenv').config();
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -16,6 +17,14 @@ require("@nomiclabs/hardhat-waffle");
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
+const RINKEBY_KEY = process.env.RINKEBY_KEY;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 module.exports = {
-  solidity: "0.8.4",
+  solidity: "0.8.9",
+  networks: {
+  rinkeby: {
+      url:  `https://rinkeby.infura.io/v3/${RINKEBY_KEY}`,
+      accounts: [`${PRIVATE_KEY}`] 
+  }
+ }
 };

@@ -9,14 +9,14 @@ import "./copy_contracts/access/Ownable.sol";
 import "./copy_contracts/utils/Strings.sol";
 pragma solidity ^0.8.2;
 // This contract have some extra features than ERC721 
-contract MyProCon is ERC1155 {
+contract FRC1155 is ERC1155 {
     //{balanceOf functions} 1 balanceOf // 2 balanceOfBatch
     //{operator functions} 1 isApprovedForAll // 2 setApprovalForAll
     // {transfers functiom} 1 safeTransferFrom // 2 safeBatchTransferFrom ^ check func that returns process state
     // {interface functions} 1 supportsInterface
 // *******          ****************************            *********
 
-    // events 
+    // Events 
     event _ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved); 
     // There are two types of function and event for Single approval and multiple 
     event TransferOnly(address indexed operator, address indexed from, address indexed to, uint256 tokenId, uint256 value);
@@ -28,6 +28,7 @@ contract MyProCon is ERC1155 {
     // mapping tokenIds to balanceOf those ids
     // TokenId => Address => Amount
     mapping(uint256 => mapping(address => uint256)) private _balances;
+
     // Without constructor contract should give abstract error
     string public name;
     string public symbol;
@@ -39,6 +40,17 @@ contract MyProCon is ERC1155 {
         name = _name;
         symbol = _symbol;
         baseUri = _baseUri; // baseUri is a link of metaData uploded on ipfs
+    }
+    // we require a Control so only admin can mint it
+    modifier onlyOwner() {
+        address owner;
+        require(owner == msg.sender);
+        _;
+    }
+    // with this function you can mint more than One in single Transaction
+    function mint(uint256 amount) public onlyOwner {
+        tokenCounter += 1;
+        _mint(msg.sender, tokenCounter, amount, "");
     }
     // this function returns balanceOf One account & id
     function balanceOf(address account, uint256 id) override public view returns ( uint256 ) {
@@ -55,6 +67,7 @@ contract MyProCon is ERC1155 {
         }
         return batchBalances;
     }
+    
     // check Operators BooleanSlot setting : functions
     function isApprovedForAll(address account, address operator) public override view returns (bool){
         return _operatorApprovals[account][operator];
@@ -64,6 +77,7 @@ contract MyProCon is ERC1155 {
         _operatorApprovals[msg.sender][operator] = approved;
         emit ApprovalForAll(msg.sender, operator, approved);
     }
+
     // transfer fucntion
     function transfer(address from, address to, uint256 tokenId,uint256 amount) private {
         uint256 fromBalance = _balances[tokenId][from];
@@ -98,7 +112,9 @@ contract MyProCon is ERC1155 {
 
         require(_checkOnERC1155Recieved(), 'not implemented OR valid');
     }
+
     // And last but not least the main funcion which gives contract for Authenticity of ERC1155
+    // Interface function
     function supportsInterface(bytes4 interfaceId) override public pure returns (bool){
             return interfaceId == 0x80ac58cd; // this the Id of ERC`1155 
     }
