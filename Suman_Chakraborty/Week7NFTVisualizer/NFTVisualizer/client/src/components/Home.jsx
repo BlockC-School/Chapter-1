@@ -23,7 +23,7 @@ const onboard = Onboard({
   subscriptions: {
     wallet: (wallet) => {
       web3 = new Web3(wallet.provider);
-      console.log(wallet);
+      // console.log(wallet);
       console.log(web3);
     },
   },
@@ -105,7 +105,7 @@ export const Home = () => {
       _balances.forEach(async (bal, index) => {
         const { data } = await axios.get(`${_baseUri}${index + 1}.json`);
         // alert("Hi");
-        console.log(_baseUri);
+        // console.log(_baseUri);
         // data.balance = balance;
         setNftsMetaData((prev) => [...prev, { ...data, balance: bal }]);
         if (index === _balances.length - 1) {
@@ -146,7 +146,7 @@ export const Home = () => {
     }
   };
 
-  console.log(nftsMetaData);
+  // console.log(nftsMetaData);
 
   useEffect(handleLoad, [metaMaskWallet]);
 
