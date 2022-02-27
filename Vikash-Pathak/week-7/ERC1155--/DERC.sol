@@ -1,12 +1,35 @@
 // SPDX-License-Identifier: Unlicense
+// import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/ERC1155.sol";
+// import "./node_modules/@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+// import "./ERC1155/ERC1155.sol";
+                                
+// import * as ERC1155 from "../ERC1155--/contracts/token/ERC1155/ERC1155.sol"; // "../contracts/token/ERC1155/ERC1155.sol";
+import "./copy_contracts/token/ERC1155/ERC1155.sol";
+import "./copy_contracts/access/Ownable.sol";
+import "./copy_contracts/utils/Strings.sol";
 pragma solidity ^0.8.2;
-import "./@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-// import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "./@openzeppelin/contracts/access/Ownable.sol";
-import "./@openzeppelin/contracts/utils/Strings.sol";
+// This contract have some extra features than ERC721 
+contract FRC1155 is ERC1155 {
+    //{balanceOf functions} 1 balanceOf // 2 balanceOfBatch
+    //{operator functions} 1 isApprovedForAll // 2 setApprovalForAll
+    // {transfers functiom} 1 safeTransferFrom // 2 safeBatchTransferFrom ^ check func that returns process state
+    // {interface functions} 1 supportsInterface
+// *******          ****************************            *********
 
+    // Events 
+    event _ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved); 
+    // There are two types of function and event for Single approval and multiple 
+    event TransferOnly(address indexed operator, address indexed from, address indexed to, uint256 tokenId, uint256 value);
+    // we use Arrays of ID and Amount to send it reduce the gas fees 
+    event safeTransferBatch(address indexed operator,address indexed from,address indexed to,uint256[] ids,uint256[] values);
+    // mapping from accounts to operator approvals
+    // Account => Operators Address => Approvals Bool State 
+    mapping(address => mapping(address => bool)) private _operatorApprovals;
+    // mapping tokenIds to balanceOf those ids
+    // TokenId => Address => Amount
+    mapping(uint256 => mapping(address => uint256)) private _balances;
 
-contract Nft_vMint is ERC1155 ,Ownable {
+    // Without constructor contract should give abstract error
     string public name;
     string public symbol;
     uint256 public tokenCounter;
@@ -18,32 +41,16 @@ contract Nft_vMint is ERC1155 ,Ownable {
         symbol = _symbol;
         baseUri = _baseUri; // baseUri is a link of metaData uploded on ipfs
     }
-    // Events 
-    event _ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved); 
-    event TransferOnly(address indexed operator, address indexed from, address indexed to, uint256 tokenId, uint256 value);
-    
-    // we use Arrays of ID and Amount to send So it reduce the gas fees with single transaction_request
-    event safeTransferBatch(address indexed operator,address indexed from,address indexed to,uint256[] ids,uint256[] values);
-    
-    // mapping from accounts to operator approvals
-    mapping(address => mapping(address => bool)) private _operatorApprovals;
-   
-    // TokenId => Address => Amount
-    mapping(uint256 => mapping(address => uint256)) private _balances;
-    // amount => Quantity of nft to be minted 
+    // we require a Control so only admin can mint it
+    modifier onlyOwner() {
+        address owner;
+        require(owner == msg.sender);
+        _;
+    }
+    // with this function you can mint more than One in single Transaction
     function mint(uint256 amount) public onlyOwner {
         tokenCounter += 1;
-        _mint(msg.sender, tokenCounter,amount, " ");
-    }
-    // Contract address rinkbey or any ...
-    function uri(uint256 tokenId) override public view returns(string memory) {
-        return string (
-            abi.encodePacked(
-                baseUri, // link of where Data is uploded on ipfs
-                Strings.toString(tokenId), // Address of contract when deployed
-                ".json" // metaData files number 
-            )
-        );
+        _mint(msg.sender, tokenCounter, amount, "");
     }
     // this function returns balanceOf One account & id
     function balanceOf(address account, uint256 id) override public view returns ( uint256 ) {
@@ -106,7 +113,8 @@ contract Nft_vMint is ERC1155 ,Ownable {
         require(_checkOnERC1155Recieved(), 'not implemented OR valid');
     }
 
-    // Authenticity of ERC115 Interface function
+    // And last but not least the main funcion which gives contract for Authenticity of ERC1155
+    // Interface function
     function supportsInterface(bytes4 interfaceId) override public pure returns (bool){
             return interfaceId == 0x80ac58cd; // this the Id of ERC`1155 
     }
