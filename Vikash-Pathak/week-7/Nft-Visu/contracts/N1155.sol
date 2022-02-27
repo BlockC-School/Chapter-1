@@ -107,7 +107,9 @@ contract Nft_vMint is ERC1155 ,Ownable {
     }
 
     // Authenticity of ERC115 Interface function
-    function supportsInterface(bytes4 interfaceId) override public pure returns (bool){
-            return interfaceId == 0x80ac58cd; // this the Id of ERC`1155 
+    function supportsInterface(bytes4 interfaceID) override public pure returns (bool){
+            // return interfaceId == 0x80ac58cd; // this the Id of ERC`1155 
+            return interfaceID == 0xd9b67a26 || interfaceID == 0x0e89341c;
+            
     }
 }
