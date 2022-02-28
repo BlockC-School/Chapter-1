@@ -1,0 +1,27 @@
+{
+  "name": "Goyaan",
+  "description": "Goyaan appears in most of the episodes, films, television specials and OVAs of the manga's anime adaptations (Dragon Ball, Dragon Ball Z) and sequels (Dragon Ball GT, Dragon Ball Super), as well as many of the franchise's video games.",
+  "image": "https://ipfs.io/ipfs/QmSJq2ak45rViuqiX7iUeTYphsrsEy9LFCjCmCPgVfjafv/5.png",
+  "attributes": [
+    {
+      "trait_type": "Strength",
+      "value": 7,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Swim",
+      "value": 5,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Intelligence",
+      "value": 9,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Super Power",
+      "value": 10,
+      "max_value": 10
+    }
+  ]
+}

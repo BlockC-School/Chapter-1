@@ -1,0 +1,27 @@
+{
+  "name": "Tryance",
+  "description": "Tryance evolved from one of Akira Toriyama's earlier one-shot series called Dragon Boy. In this story, the protagonist looks a lot like Goku, but has a pair of wings.",
+  "image": "https://ipfs.io/ipfs/QmSJq2ak45rViuqiX7iUeTYphsrsEy9LFCjCmCPgVfjafv/6.png",
+  "attributes": [
+    {
+      "trait_type": "Strength",
+      "value": 10,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Blow",
+      "value": 4,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Swim",
+      "value": 7,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Super Power",
+      "value": 9,
+      "max_value": 10
+    }
+  ]
+}
