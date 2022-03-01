@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { dragonBallZCollectionAbi } from "../helper";
 import axios from "axios";
 import Onboard from "bnc-onboard";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 // import { useOnboard } from "use-onboard";
 import Web3 from "web3";
 import { CustomCard } from "./CustomCard";
@@ -163,25 +163,8 @@ export const Home = () => {
       />
       <br />
       <div>
-        <Grid container spacing={3}>
-          <Grid item xs={6}>
-            {name === "" ? (
-              isLoading && (
-                <LoadingButton loading={isLoading} variant="outlined" disabled>
-                  Fetching
-                </LoadingButton>
-              )
-            ) : isLoading ? (
-              <LoadingButton loading={isLoading} variant="outlined" disabled>
-                Fetching
-              </LoadingButton>
-            ) : (
-              <Button color="secondary" variant="contained">
-                Collection
-              </Button>
-            )}
-          </Grid>
-          <Grid item xs={6}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={12}>
             {name !== "" && (
               <LoadingButton
                 color="secondary"
@@ -211,14 +194,14 @@ export const Home = () => {
             marginTop: "50px",
             // border: "1px solid red",
             margin: "auto",
-            width: "1050px",
+            maxWidth: "85%",
             marginBottom: "20px",
           }}
         >
           {nftsMetaData.map((nft, index) => {
             return (
               nft.balance > 0 && (
-                <Grid key={index} container item xs={6}>
+                <Grid key={index} container item xs={12} md={6}>
                   <CustomCard
                     nft={nft}
                     symbol={symbol}

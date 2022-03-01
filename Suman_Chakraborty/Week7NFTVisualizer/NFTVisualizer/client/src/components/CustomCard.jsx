@@ -7,15 +7,29 @@ import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SellIcon from "@mui/icons-material/Sell";
+import IosShareIcon from "@mui/icons-material/IosShare";
+import { AttributeCard } from "./AttributeCard";
 
 export const CustomCard = ({ nft, symbol }) => {
-  const { name, image, balance, description } = nft;
+  const { name, image, balance, description, attributes } = nft;
+
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const handleOpenModal = (value) => {
+    setIsOpen(value);
+  };
 
   return (
-    <Card sx={{ maxWidth: 500, cursor: "pointer" }}>
+    <Card
+      sx={{
+        width: "100%",
+        maxWidth: "100%",
+        cursor: "pointer",
+        background: "#e4d6d6",
+      }}
+    >
       <CardHeader
         avatar={
           <Avatar sx={{ backgroundColor: "#ff9900", padding: "2px 2px" }}>
@@ -29,7 +43,7 @@ export const CustomCard = ({ nft, symbol }) => {
         }
         title={<h2>{name}</h2>}
       />
-      <IconButton>
+      <IconButton onClick={() => handleOpenModal(true)}>
         <CardMedia
           component="img"
           height="400"
@@ -38,7 +52,7 @@ export const CustomCard = ({ nft, symbol }) => {
         />
       </IconButton>
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" sx={{ color: "black", fontSize: "15px" }}>
           {description}
         </Typography>
       </CardContent>
@@ -55,9 +69,16 @@ export const CustomCard = ({ nft, symbol }) => {
           <span>{balance}</span>
         </IconButton>
         <IconButton>
-          <ShareIcon />
+          <IosShareIcon />
         </IconButton>
       </CardActions>
+      {isOpen && (
+        <AttributeCard
+          isOpen={isOpen}
+          handleOpenModal={handleOpenModal}
+          attributes={attributes}
+        />
+      )}
     </Card>
   );
 };

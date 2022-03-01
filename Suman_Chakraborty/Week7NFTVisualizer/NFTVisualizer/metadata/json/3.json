@@ -1,0 +1,27 @@
+{
+  "name": "Horikawa",
+  "description": "Horikawa travels to planet Namek in an attempt to wish for immortality using that planet's Dragon Balls, cutting the tyrant Frieza off from making the same wish in the process.",
+  "image": "https://ipfs.io/ipfs/QmSJq2ak45rViuqiX7iUeTYphsrsEy9LFCjCmCPgVfjafv/3.png",
+  "attributes": [
+    {
+      "trait_type": "Strength",
+      "value": 8,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Swim",
+      "value": 8,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Jump",
+      "value": 8,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Intelligence",
+      "value": 8,
+      "max_value": 10
+    }
+  ]
+}
