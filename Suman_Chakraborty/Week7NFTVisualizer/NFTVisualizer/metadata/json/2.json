@@ -1,0 +1,27 @@
+{
+  "name": "Sayona",
+  "description": "Sayona has been hailed as one of the most iconic characters not only in the Dragon Ball franchise, but also in manga and anime history as a whole",
+  "image": "https://ipfs.io/ipfs/QmSJq2ak45rViuqiX7iUeTYphsrsEy9LFCjCmCPgVfjafv/2.png",
+  "attributes": [
+    {
+      "trait_type": "Strength",
+      "value": 8,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Blow",
+      "value": 6,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Swim",
+      "value": 5,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Super Power",
+      "value": 8,
+      "max_value": 10
+    }
+  ]
+}

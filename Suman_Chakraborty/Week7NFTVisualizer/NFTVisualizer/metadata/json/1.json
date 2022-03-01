@@ -1,0 +1,27 @@
+{
+  "name": "Chesmir",
+  "description": "Chesmir is the prince of an extraterrestrial warrior race known as the Saiyans. He is extremely arrogant, proud and hardworking; constantly referring to his heritage and royal status throughout the series.[",
+  "image": "https://ipfs.io/ipfs/QmSJq2ak45rViuqiX7iUeTYphsrsEy9LFCjCmCPgVfjafv/1.png",
+  "attributes": [
+    {
+      "trait_type": "Strength",
+      "value": 7,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Speed",
+      "value": 6,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Jump",
+      "value": 6,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Intelligence",
+      "value": 9,
+      "max_value": 10
+    }
+  ]
+}
