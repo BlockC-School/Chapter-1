@@ -12,8 +12,10 @@ import SellIcon from "@mui/icons-material/Sell";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import { AttributeCard } from "./AttributeCard";
 
-export const CustomCard = ({ nft, symbol }) => {
-  const { name, image, balance, description, attributes } = nft;
+export const CustomCard = ({ nft }) => {
+  const { name, symbol, amount, metadata } = nft;
+  const { image, description, attributes } = metadata;
+  const nftName = metadata.name;
 
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -41,8 +43,10 @@ export const CustomCard = ({ nft, symbol }) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={<h2>{name}</h2>}
+        title={<h2>{nftName}</h2>}
+        subheader={<h4>{`Collection Of ${name}`}</h4>}
       />
+
       <IconButton onClick={() => handleOpenModal(true)}>
         <CardMedia
           component="img"
@@ -66,7 +70,7 @@ export const CustomCard = ({ nft, symbol }) => {
       >
         <IconButton>
           <SellIcon />
-          <span>{balance}</span>
+          <span>{amount}</span>
         </IconButton>
         <IconButton>
           <IosShareIcon />
@@ -77,6 +81,7 @@ export const CustomCard = ({ nft, symbol }) => {
           isOpen={isOpen}
           handleOpenModal={handleOpenModal}
           attributes={attributes}
+          collectionName={name}
         />
       )}
     </Card>

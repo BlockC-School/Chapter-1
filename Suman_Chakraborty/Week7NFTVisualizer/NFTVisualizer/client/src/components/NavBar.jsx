@@ -7,7 +7,13 @@ import IconButton from "@mui/material/IconButton";
 
 import Button from "@mui/material/Button";
 
-export const NavBar = ({ handleLoginLogout, buttonContent, buttonString }) => {
+export const NavBar = ({
+  handleLoginLogout,
+  buttonContent,
+  buttonString,
+  metaMaskWallet,
+  isLoading,
+}) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -20,6 +26,10 @@ export const NavBar = ({ handleLoginLogout, buttonContent, buttonString }) => {
         >
           <Typography variant="h4" component="div" sx={{ fontSize: "25px" }}>
             𝑹𝒂𝒋𝒂𝒎𝒐𝒕𝒐 𝑽𝒊𝒔𝒖𝒂𝒍𝒊𝒛𝒆𝒓
+          </Typography>
+
+          <Typography variant="h4" component="div" sx={{ fontSize: "20px" }}>
+            {isLoading ? <div>...Loading</div> : metaMaskWallet}
           </Typography>
 
           <div>

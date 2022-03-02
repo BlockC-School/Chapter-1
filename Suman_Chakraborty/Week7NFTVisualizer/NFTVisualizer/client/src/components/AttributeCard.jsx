@@ -17,7 +17,12 @@ const style = {
   p: 4,
 };
 
-export const AttributeCard = ({ isOpen, handleOpenModal, attributes }) => {
+export const AttributeCard = ({
+  isOpen,
+  handleOpenModal,
+  attributes,
+  collectionName,
+}) => {
   console.log("isOpen", isOpen);
   console.log("AttributeCard", attributes);
 
