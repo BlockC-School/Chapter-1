@@ -19,4 +19,5 @@ contract Price {
     require(msg.sender == owner, "Only owner can update price");
 		price = _price;
 	}
+  
 }
