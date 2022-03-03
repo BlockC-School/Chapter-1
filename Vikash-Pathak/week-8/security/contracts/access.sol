@@ -3,6 +3,9 @@
 pragma solidity ^0.8.9;
 
 contract AccessControl {
+
+	event approval(uint256 amount,bool agree);
+
 	uint256 public price;
 	address private owner;
 	// Deploye: Set the price
@@ -19,8 +22,20 @@ contract AccessControl {
 		require(msg.sender == owner, 'Only owner should change the price');
 		price = _price;
 	}
-	// OwnerPermission:
-	
+	mapping(address => bool) public agreed;
+	// OwnerPermission: Permission to change price
+	function restrictedPrice(uint256 _price, bool agree) public onlyOwner{
+		msg.sender == owner;
+		require(agree == false, "already approved");
+		agreed[owner];
+		price = _price;
+		emit approval(price, agree);		
+	}
+	// TransferOwnership: To New Address
+	function transferOwnership(address _newOwner) external view onlyOwner{
+		require(_newOwner != address(0), "Don't set it to address 0 ");
+		owner == _newOwner;
+	}
 }
 
 // it("Should set price at deployment", async function () {

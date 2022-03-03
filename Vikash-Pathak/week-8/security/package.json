@@ -1,0 +1,20 @@
+{
+  "name": "accessx",
+  "version": "1.0.0",
+  "description": "Ownership restricted AccessControl Contract",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "truffle test"
+  },
+  "keywords": [
+    "Security"
+  ],
+  "author": "Vikash Pathak",
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^4.3.6"
+  }
+}
