@@ -2,7 +2,8 @@ import React from 'react'
 import Abstract from '../assets/Header/Abstract.jpeg'
 import searchIcon from '../assets/Header/search.png'
 import themeSwitchIcon from '../assets/Header/theme-switch.png'
-const Header = () => {
+function Header  () {
+
     return <div className='header'>
         <div className='logoContainer'>
             <img src={Abstract} className='abstractLogo' alt='Abstract Collection Logo' />

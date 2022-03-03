@@ -110,7 +110,7 @@ hr{
   position: fixed;
   background-color: #d5722f;
   padding: 23px 40px;
-  left: -85px;
+  right: -85px;
   border-radius: 5px;
   top: 50%;
   transform: translateY(-50%);
