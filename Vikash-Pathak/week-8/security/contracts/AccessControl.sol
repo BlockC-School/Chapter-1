@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MIT
 
+import "../node_modules/hardhat/console.sol";
+
 pragma solidity ^0.8.9;
 
 contract AccessControl {
@@ -7,9 +9,11 @@ contract AccessControl {
 	event approval(uint256 amount,bool agree);
 
 	uint256 public price;
-	address private owner;
+	address private owner = msg.sender;
 	// Deploye: Set the price
-	constructor(uint256 _price) onlyOwner{
+	constructor(uint256 _price,address _deployer) onlyOwner{
+		console.log("Price is set to be", _price);
+		owner = _deployer;
 		price = _price;	
 	}
 	// Address: owner is Deployed address 
@@ -18,9 +22,10 @@ contract AccessControl {
 		_;
 	}
     // Price: Owner can changes the price
-	function updatePrice(uint256 _price) external {
+	function updatePrice(uint256 _price) external onlyOwner returns (bool) {
 		require(msg.sender == owner, 'Only owner should change the price');
 		price = _price;
+		return true;
 	}
 	mapping(address => bool) public agreed;
 	// OwnerPermission: Permission to change price
@@ -38,6 +43,7 @@ contract AccessControl {
 	}
 	// GetPrice: 
 	function getPrice() public view returns (uint256) {
+		console.log("Getting Price ", price);
 		return price;
 	}
 }
