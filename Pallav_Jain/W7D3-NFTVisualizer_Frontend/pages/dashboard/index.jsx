@@ -4,10 +4,14 @@ import axios from "axios";
 import Card from "@mui/material/Card";
 import Link from "next/link";
 import styles from "../../styles/Home.module.css";
+// import Particle from "../Particle";
 
 export default function index() {
   const [data, setData] = useState([]);
   const router = useRouter();
+
+
+  const name = "pallab"
 
   const {
     query: { name, baseURI, tokenCount, Address, MarvelCollection },
@@ -42,6 +46,7 @@ export default function index() {
 
   return (
     <div>
+      {/* <Particle /> */}
       {data.map((e) => (
         <Link href={`/dashboard/${e.tokenId}`}>
           <Card variant="outlined" key={e.tokenId} className={styles.card}>

@@ -540,7 +540,7 @@ export default function Home() {
 
       <main>
         <h1>Welcome to NFT Visualizer</h1>
-        <button onClick={Login}>Login</button>
+        <button onClick={Login}>Connect Your Wallet</button>
         <h2>NFT Collection Name: {name}</h2>
         <h3>NFT Collection Symbol: {symbol}</h3>
         <h4>NFT Collection BaseURI: {baseURI}</h4>
