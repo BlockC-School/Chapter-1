@@ -1,0 +1,32 @@
+{
+  "name": "Kaykarot",
+  "description": "Kaykarot is a fictional character and the star of the Dragon Ball manga series created by Akira Toriyama. Serving as the main protagonist of the series, he is based on Sun Wukong",
+  "image": "https://ipfs.io/ipfs/QmSJq2ak45rViuqiX7iUeTYphsrsEy9LFCjCmCPgVfjafv/4.png",
+  "attributes": [
+    {
+      "trait_type": "Strength",
+      "value": 10,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Blow",
+      "value": 10,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Swim",
+      "value": 9,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Super Power",
+      "value": 9,
+      "max_value": 10
+    },
+    {
+      "trait_type": "Intelligence",
+      "value": 9,
+      "max_value": 10
+    }
+  ]
+}
