@@ -9,16 +9,15 @@ const abi = contract.abi;
 
 function App() {
   const [currentAccount, setCurrentAccount] = useState(null);
-  
-  const checkWalletIsConnected = async() => { 
+
+  const CheckWalletIsConnected = async() => { 
     const { ethereum } = window;
 
     if (!ethereum) {
       console.log("May be you have not installed metamask");
       return;
     } else {
-        console.log("Metamask is exists! We're working to add more Wallets ")
-      }
+        console.log("Metamask is exists! We're working to add more Wallets ");
       const accounts = await ethereum.request({method: 'eth_accounts'});
 
       if (accounts.length !== 0) {
@@ -29,8 +28,8 @@ function App() {
         console.log('no authorized accounts found')
       }
     }
-   
-
+  }
+  
   const connectWalletHandler = async () => { 
     const { ethereum } = window;
 
@@ -50,7 +49,7 @@ function App() {
     try {
       const {ethereum} = window;
       if (ethereum) {
-        const provider = new ethers.provider.Web3Provider(ethereum);
+        const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const fundContract = new ethers.Contract(contractAddress, abi, signer);
         
@@ -87,7 +86,7 @@ function App() {
   } 
   // useEffect provides react support
   useEffect(() => {
-    checkWalletIsConnected();
+    CheckWalletIsConnected();
   },[])
 
 
