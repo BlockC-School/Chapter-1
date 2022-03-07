@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MIT
+pragma solidity >=0.8.3;
+// import "../@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "../@openzeppelin/contracts/access/Ownable.sol";
+// import "../@openzeppelin/contracts/utils/Strings.sol";
+pragma solidity >=0.8.3;
 
-import "../Crowd-funding/node_modules/@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 
-pragma solidity >=0.8.6;
-
-contract OpenFund is ERC1155{
+contract OpenFunds is Ownable{
     // Events of Crowdfund Logic
     event ProjectCreated(string proposalId, string name, string description, uint256 fundsGoal);
     event ProjectFunded(string proposalId, uint256 value);
@@ -14,32 +16,22 @@ contract OpenFund is ERC1155{
     mapping(address => mapping(address => bool)) private _operatorApprovals;
     // TokenId => Address => Amount
     mapping(uint256 => mapping(address => uint256)) private _balances;    
-    address public owner;
-    modifier onlyOwner(){
-        require(owner == msg.sender,"you are not registered");
-        _;
-    }
-   
-    // amount => Quantity of FakeAmount to be minted 
-    function mint(uint256 amount) public onlyOwner {
-        tokenCounter += 1;
-        _mint(msg.sender, tokenCounter,amount, " ");
-    }
-    
-    string public name;
-    string public Kindpurpose;
-    uint256 public tokenCounter;
-    string public baseUri;
-    uint256 public fundGoal;
 
-    constructor (
-        string memory _name, string memory _purpose, string memory _baseUri, uint256 _fundGoal 
-    ) ERC1155 (_baseUri) {
+    // Contructor for getting input early
+    constructor(string memory _name,string memory _description,address _from,uint256 _minimum,uint256 _fundGoal) {
         name = _name;
-        Kindpurpose = _purpose;
-        baseUri = _baseUri; // link of any Data metaData uploded on web OR ipfs /containg Proposal Details
+        description = _description;
+        owner(); _from;
+        amount =  _minimum;
         fundGoal = _fundGoal;
     }
+   
+    string public name;
+    string public description;
+    uint256 public tokenCounter;
+    uint256 public amount;
+    uint256 public fundGoal;
+
     // States for the transaction
     enum CurrentState {
         Opened,
@@ -75,7 +67,6 @@ contract OpenFund is ERC1155{
         string calldata _description,
         uint256 _fundGoal
     ) public {
-        require(_fundGoal > 0,"0 is not valid");
         Project memory project = Project(
             _Id,
             _name,
@@ -109,6 +100,14 @@ contract OpenFund is ERC1155{
     // releasing the fund into project
         emit ProjectFunded(project.proposalId, msg.value);    
     }
+        uint256 public requiredFund;
+    // amount => Quantity of FakeAmount to be minted 
+    function Fund(uint256 _amount) public payable {
+        require(_amount >= msg.value,"" );
+        tokenCounter += 1;
+        uint256 reqFund = fundGoal - _amount;
+        requiredFund = reqFund;
+    }
 // Changing current state    
     function ChangeState(CurrentState _newState,uint256 projectId) public isOwner(projectId) {
         Project memory project = projects[projectId];
@@ -120,14 +119,14 @@ contract OpenFund is ERC1155{
     }
 
     // the checking function that returns trnsfer is received or not
-    function _checkOnERC1155Recieved() internal pure returns(bool) {
-        return true;        
-    }
+    // function _checkOnERC1155Recieved() internal pure returns(bool) {
+    //     return true;        
+    // }
     // Authenticity of ERC115 Interface function
-    function supportsInterface(bytes4 interfaceID) override public pure returns (bool){
-            // return interfaceId == 0x80ac58cd; // this the Id of ERC`1155 
-            return interfaceID == 0xd9b67a26 || interfaceID == 0x0e89341c;
+    // function supportsInterface(bytes4 interfaceID) override public pure returns (bool){
+    //         // return interfaceId == 0x80ac58cd; // this the Id of ERC`1155 
+    //         return interfaceID == 0xd9b67a26 || interfaceID == 0x0e89341c;
             
-    }
+    // }
 }
 
