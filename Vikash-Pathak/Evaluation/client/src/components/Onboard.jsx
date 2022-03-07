@@ -62,7 +62,6 @@ function Header() {
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
   const [{ chains, connectedChain, settingChain }, setChain] = useSetChain()
   const connectedWallets = useWallets()
-
   return (
     <div>
       <button onClick={() => connect()}>

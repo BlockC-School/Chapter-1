@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  background-color: aquamarine;
+  border-color: #282c34;
 }
 
 .App-header {
@@ -10,7 +12,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
 }
 
 .App-link {
@@ -32,7 +34,9 @@
   text-align: center;
   margin: 100px;
 }
-
+.NavTab {
+  background-color: #282c34;
+}
 .cta-button {
   padding: 15px;
   border: none;
@@ -47,6 +51,6 @@
   background: rgb(32, 129, 226);
 }
 
-.mint-nft-button {
+.fund-button {
   background: orange;
 }
