@@ -45,8 +45,7 @@ function App() {
       factoryABI,
       provider
     );
-    console.log("factory", contract);
-    setContract(contract)
+    setContract(contract);
     enableWeb3();
   }, []);
 

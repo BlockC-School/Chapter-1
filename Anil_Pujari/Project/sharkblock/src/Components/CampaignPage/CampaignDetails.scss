@@ -9,6 +9,7 @@
         width: 48%;
         img {
           width: 100%;
+          height: 300px;
           cursor: pointer;
         }
         div{
@@ -171,6 +172,7 @@
       background-color: #ffffff;
       padding: 10px;
       width: 300px;
+      height: 40vh;
       h2{
         border-bottom: 1px solid #e5e5e5;
       }
@@ -200,5 +202,27 @@
     width: 30px;
     height: 30px;
     margin-right: 10px;
+
+}
+
+.transaction_record{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e5e5;
+  height: 50px;
+  margin: 10px 0px;
+  // box-shadow: 0 3px 5px 0 rgb(0 0 0 / 20%);
+  p{
+
+  }
+  h6{
+    width: 40%;
+    overflow: hidden;
+    font-size: 15px;
+    font-weight: 400;
+    text-overflow: ellipsis;
+  }
+}
+.transaction_container{
 
 }

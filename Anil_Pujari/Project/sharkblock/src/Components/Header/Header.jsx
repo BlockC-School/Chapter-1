@@ -1,40 +1,97 @@
-import React from 'react'
-import { Tooltip } from 'antd';
+import React from "react";
+import { Tooltip, message, Popover } from "antd";
 import { useMoralis } from "react-moralis";
-import Button from '../Button/Button'
-import { UnlockFilled, WalletFilled  } from '@ant-design/icons';
-import logo from '../../assets/images/logo.jpg'
-import metamaskicon from '../../assets/images/metamask.webp';
-import './Header.scss'
+import Button from "../Button/Button";
+import { UnlockFilled, WalletFilled, UserOutlined } from "@ant-design/icons";
+import logo from "../../assets/images/logo.jpg";
+import metamaskicon from "../../assets/images/metamask.webp";
+import "./Header.scss";
 export default function Header() {
-    const { authenticate, isAuthenticated, user, logout } = useMoralis();
+  const { authenticate, isAuthenticated, user, logout } = useMoralis();
 
-    const handleAuthentication = () => {
-        if(isAuthenticated){
-            logout();
-        } else {
-            authenticate({ signingMessage: "Authenticate" });
-        }
+  const handleAuthentication = (action) => {
+    if (action) {
+      authenticate({ signingMessage: "Authenticate" });
+    } else {
+      logout();
+      localStorage.setItem("isAuthenticated", false);
     }
+  };
 
-    React.useEffect(() => {
-        if (isAuthenticated) {
-            console.log(user, user.get("username"));
-        }
-    }, [user, isAuthenticated])
-  return (
-    <div className='header_container'>
-        <div>
-            <div className='logo_container'>
-             <img src={logo} alt="logo" />
-            </div>
-            
-        </div>
-        <div>
-        { isAuthenticated && user && <Tooltip title={user.get('ethAddress')}> <Button  style={{backgroundColor: 'transparent', color: '#4cc899', width: '200px'}} icon={<img className='metamask_icon' src={metamaskicon} alt="metamask_icon"/>} type='text'>CONNECTED TO WALLET</Button></Tooltip>}
-        <Button onClick={handleAuthentication} style={{backgroundColor: 'transparent', color: 'black', width: '150px'}} icon={<WalletFilled style={{color: '#4cc899'}} />} type='text'>{isAuthenticated ? 'DISCONNECT': 'CONNECT'}</Button>
-            {/* <Button style={{width: '250px', height: '50px'}} >START A CAMPAIGN</Button> */}
-        </div>
+  React.useEffect(() => {
+    if (isAuthenticated && localStorage.getItem("isAuthenticated") === false) {
+      message.success("You are logged in successfully");
+      localStorage.setItem("isAuthenticated", true);
+    }
+  }, [user, isAuthenticated]);
+
+  const content = (
+    <div>
+      <p>DASHBOARD</p>
+      <p onClick={() => handleAuthentication(false)}>LOG OUT</p>
     </div>
-  )
+  );
+
+  return (
+    <div className="header_container">
+      <div>
+        <div className="logo_container">
+          <img src={logo} alt="logo" />
+        </div>
+      </div>
+      <div>
+        {isAuthenticated && user && (
+          <Tooltip title={user.get("ethAddress")}>
+            {" "}
+            <Button
+              style={{
+                backgroundColor: "transparent",
+                color: "#4cc899",
+                width: "250px",
+                border: "0px",
+              }}
+              icon={
+                <img
+                  className="metamask_icon"
+                  src={metamaskicon}
+                  alt="metamask_icon"
+                />
+              }
+              type="text"
+            >
+              CONNECTED TO WALLET
+            </Button>
+          </Tooltip>
+        )}
+
+        {isAuthenticated && user ? (
+          <Popover content={content}>
+            <UserOutlined
+              size="large"
+              style={{
+                fontSize: "20px",
+                border: "1px solid #4cc899",
+                padding: "10px",
+                margin: "10px",
+                borderRadius: "50%",
+              }}
+            />
+          </Popover>
+        ) : (
+          <Button
+            onClick={() => handleAuthentication(true)}
+            style={{
+              backgroundColor: "transparent",
+              color: "black",
+              width: "180px",
+            }}
+            icon={<WalletFilled style={{ color: "#4cc899" }} />}
+            type="text"
+          >
+            {isAuthenticated ? "DISCONNECT" : "CONNECT WALLET"}
+          </Button>
+        )}
+      </div>
+    </div>
+  );
 }

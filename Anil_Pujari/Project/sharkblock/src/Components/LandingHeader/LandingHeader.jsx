@@ -14,30 +14,14 @@ import AntdProgress from './../ProgressBar/AntdProgress';
 import Usefetch from "../../utils/Usefetch";
 import dateinSec from "../../utils/dateinSec";
 
-const props = {
-  name: 'file',
-  multiple: true,
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  onChange(info) {
-    const { status } = info.file;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-  onDrop(e) {
-    console.log('Dropped files', e.dataTransfer.files);
-  },
-};
+
 
 
 export default function LandingHeader() {
   const [isModelvisible, setIsModelVisible ] = React.useState(false); 
    const [file, setFile] = React.useState(null);
+   const [uploaded, setFileuploaded]= React.useState(false);
+   const [loading, setIsloading]= React.useState(false);
    const [fileUrls, setFileUrls] = React.useState([]);
    const [form, setForm] = React.useState({
      category: "",
@@ -66,6 +50,20 @@ export default function LandingHeader() {
     setForm(obj)
   }
 
+  const handleUpload = async (file) => {
+    message.info("File is uploading..");
+     try {
+      const file1 = new Moralis.File(file.name , file);
+      await file1.saveIPFS();
+      const fileURL = file1.ipfs();
+      message.success("File uploaded successfully");
+      setFileuploaded(true);
+      setFileUrls([...fileUrls, fileURL]);
+     } catch (error) {
+        console.error(error);
+     }
+  }
+
   const { data, fetch, isFetching, isLoading } = Usefetch({
     functionName: "createCampaign",
     params:{
@@ -85,39 +83,34 @@ export default function LandingHeader() {
   }
 
   const handleSubmit = async (e) =>{
-    console.log("file", file);
-    try {
-      const file1 = new Moralis.File(file.name , file);
-      await file1.saveIPFS();
-      const fileURL = file1.ipfs();
-      // if(fileURL){
-      //   fetch();
-      // }
-      setFileUrls([...fileUrls, fileURL]);
-      console.log("fileURL", fileURL);
-    } catch (error) {
-      console.error(error);
-    }
+    e.preventDefault();
+
+    fetch();
+    handleModal(false);
+    // try {
+    //   const file1 = new Moralis.File(file.name , file);
+    //   await file1.saveIPFS();
+    //   const fileURL = file1.ipfs();
+    //   setFileUrls([...fileUrls, fileURL]);
+    //   console.log("fileURL", fileURL);
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
 
-  React.useEffect(() => {
-    let frm = form.category && form.title && form.description && form.goal && form.startDate && form.endDate;
-    let file = fileUrls.length > 0;
-    console.log("form", frm ,form);
-    console.log("file", file, fileUrls);
-   if(frm && file){
-    console.log("form", form);
-    console.log("file", fileUrls);
-    fetch();
-   }
-  }, form, fileUrls)
+  // React.useEffect(() => {
+  //   let frm = form.category && form.title && form.description && form.goal && form.startDate && form.endDate;
+  //   let file = fileUrls.length > 0;
+  //   console.log("form", frm ,form);
+  //   console.log("file", file, fileUrls);
+  //  if(frm && file){
+  //   console.log("form", form);
+  //   console.log("file", fileUrls);
+   
+  //  }
+  // }, form, fileUrls)
 
-  const dummyRequest = ({ file, onSuccess }) => {
-    setTimeout(() => {
-      onSuccess("ok");
-    }, 0);
-  };
-
+ 
   React.useEffect(()=>{
    if(error){
      console.error("error", error)
@@ -125,34 +118,13 @@ export default function LandingHeader() {
    console.log("file", isFetching, isLoading, data);
   },[isFetching, isLoading, data])
 
-  const onChange =  (info) => {
-    const nextState = {};
-    switch (info.file.status) {
-      case "uploading":
-        nextState.selectedFileList = [info.file];
-        break;
-      case "done":
-        nextState.selectedFile = info.file;
-        setFile(info.file);
-        nextState.selectedFileList = [info.file];
-        message.success(`${info.file.name} file uploaded successfully.`);
-        break;
-    case "error":
-      message.error(`${info.file.name} file upload failed.`);
-    break;
-      default:
-        // error or removed
-        nextState.selectedFile = null;
-        nextState.selectedFileList = [];
-    }
-   // setFile(nextState);
-  };
+
 
   return (
     <>
     <div className="landing_container">
       <div className="landing_header_container">
-        <Header />
+        {/* <Header /> */}
       </div>
       <div className="welcome_container">
         <div className="welcome_content">
@@ -169,6 +141,7 @@ export default function LandingHeader() {
             <Button
               style={{ backgroundColor: "#041d57" ,  height: '50px', width: '200px'}}
               icon={<HeartFilled />}
+              
             >
               INVEST NOW
             </Button>
@@ -196,7 +169,7 @@ export default function LandingHeader() {
       <Input required onChange={handleInput} type='date' name="startDate" className="input_class" />
       <Input required onChange={handleInput} type='date' name="endDate" className="input_class"  placeholder="End Date"/>
       </div>
-        <input type='file' required  onChange={(e)=> setFile(e.target.files[0])} />
+        <input type='file' required  onChange={(e)=> handleUpload(e.target.files[0])} />
          {/* <Dragger 
           customRequest={dummyRequest}
           onChange={onChange}
@@ -210,7 +183,7 @@ export default function LandingHeader() {
       band files
     </p>
   </Dragger> */}
-  <Button  onClick={handleSubmit}>SUBMIT</Button>
+  <Button  onClick={handleSubmit} disabled={!uploaded}>SUBMIT</Button>
     </Modal>
     </>
   );
