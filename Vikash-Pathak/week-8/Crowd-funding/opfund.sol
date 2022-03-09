@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 
-import "../Crowd-funding/node_modules/@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "../Crowd-funding/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 pragma solidity >=0.8.6;
 
-contract OpenFund is ERC1155{
+contract OpenFund is ERC721{
     // Events of Crowdfund Logic
     event ProjectCreated(string proposalId, string name, string description, uint256 fundsGoal);
     event ProjectFunded(string proposalId, uint256 value);
@@ -21,21 +21,21 @@ contract OpenFund is ERC1155{
     }
    
     // amount => Quantity of FakeAmount to be minted 
-    function mint(uint256 amount) public onlyOwner {
-        tokenCounter += 1;
-        _mint(msg.sender, tokenCounter,amount, " ");
-    }
+    // function mint(uint256 amount) public onlyOwner {
+    //     tokenCounter += 1;
+    //     _mint(msg.sender, tokenCounter);
+    // }
     
-    string public name;
+    // string public name;
     string public Kindpurpose;
     uint256 public tokenCounter;
     string public baseUri;
     uint256 public fundGoal;
 
     constructor (
-        string memory _name, string memory _purpose, string memory _baseUri, uint256 _fundGoal 
-    ) ERC1155 (_baseUri) {
-        name = _name;
+        string memory _purpose, string memory _baseUri, uint256 _fundGoal 
+    ) ERC721 ("name", "Dofo") {
+        // name = _name;
         Kindpurpose = _purpose;
         baseUri = _baseUri; // link of any Data metaData uploded on web OR ipfs /containg Proposal Details
         fundGoal = _fundGoal;
