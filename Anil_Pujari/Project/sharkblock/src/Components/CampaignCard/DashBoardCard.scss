@@ -1,6 +1,6 @@
-.campaigncard_container {
+.dash_campaigncard_container {
   width: 31%;
-  height: 650px;
+  height: 550px;
   position: relative;
   margin: 1.5% 5px;
   box-shadow: 0 3px 5px 0 rgb(0 0 0 / 20%);
@@ -79,31 +79,12 @@
         }
     }
     .created_by{
+      position: absolute;
+      bottom: 0px;
         border-top: 1px solid #eee;
         margin: 20px 0px;
-        position: absolute;
-        width: 100%;
-        bottom: 0px;
-        left: 0px;
-        padding-left: 10px;
         display: flex;
-      div{
-        margin: 20px 10px;
-          h6{
-              margin: 0px;
-              padding: 0px;
-              font-size: 12px;
-              font-weight: 400;
-              color: #666;
-          }
-            p{
-                margin: 0px;
-                padding: 0px;
-                font-weight: 500;
-                color: rgba(0, 0, 0, 0.85);
-                font-size: 14px;
-            }
-      }
+       justify-content: space-around;
     }
   }
 }

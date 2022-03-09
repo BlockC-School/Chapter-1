@@ -11,6 +11,7 @@ export default function PopularCampaignsContainer({contract}) {
   // const array = Array(7).fill(0);
   const [allCampainAddr, setAllCampainAddr] = React.useState([]);
   const [allcampaigndetailsArray, setAllcampaigndetailsArray] = React.useState([]);
+  const [loading, setloading] =  React.useState(false);
   // const { data, fetch, isFetching, isLoading } = Usefetch({
   //   functionName: "createCampaign",
   // });
@@ -24,6 +25,7 @@ export default function PopularCampaignsContainer({contract}) {
 
   React.useEffect(()=> {
     const provider = ethers.getDefaultProvider("rinkeby");
+    setloading(true);
     (async () => {
     const detailArray = [];
      for (const addr of allCampainAddr) {
@@ -37,11 +39,13 @@ export default function PopularCampaignsContainer({contract}) {
         let images = await sharkcontract.getImages();
         let _balance = await sharkcontract.getMyCampaignFund();
         let transaction = await sharkcontract.getTransactions();
+        let status = await sharkcontract.status();
          let obj = {
            ...sharkblock,
            images: images,
            pledged: _balance,
            transaction,
+           status,
            address: sharkcontract.address
          }
         detailArray.push(obj);
@@ -49,13 +53,14 @@ export default function PopularCampaignsContainer({contract}) {
      }
      console.log("detailArray", detailArray);
      setAllcampaigndetailsArray(detailArray);
+     setloading(false);
       })()
      
    
   },[allCampainAddr])
   return (
     <>
-     { !allcampaigndetailsArray.length >0 && <Loader />}
+     { loading && <Loader />}
  
     <div className="PopularCampiagn_Container">
       <div className="campaign_title">

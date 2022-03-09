@@ -6,9 +6,10 @@ import { UnlockFilled, WalletFilled, UserOutlined } from "@ant-design/icons";
 import logo from "../../assets/images/logo.jpg";
 import metamaskicon from "../../assets/images/metamask.webp";
 import "./Header.scss";
+import { useNavigate } from 'react-router-dom';
 export default function Header() {
   const { authenticate, isAuthenticated, user, logout } = useMoralis();
-
+  const navigate = useNavigate();
   const handleAuthentication = (action) => {
     if (action) {
       authenticate({ signingMessage: "Authenticate" });
@@ -17,7 +18,11 @@ export default function Header() {
       localStorage.setItem("isAuthenticated", false);
     }
   };
-
+  const handleNavigate = () => {
+    
+    navigate(`/dashboard`);
+ 
+  }
   React.useEffect(() => {
     if (isAuthenticated && localStorage.getItem("isAuthenticated") === false) {
       message.success("You are logged in successfully");
@@ -27,7 +32,7 @@ export default function Header() {
 
   const content = (
     <div>
-      <p>DASHBOARD</p>
+      <p onClick={handleNavigate}>DASHBOARD</p>
       <p onClick={() => handleAuthentication(false)}>LOG OUT</p>
     </div>
   );

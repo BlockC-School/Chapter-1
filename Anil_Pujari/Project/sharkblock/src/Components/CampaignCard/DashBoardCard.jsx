@@ -1,26 +1,46 @@
 import React from "react";
-import "./campaign.scss";
-import { Avatar, message } from "antd";
+import "./DashBoardCard.scss";
+import { Avatar,message } from "antd";
+import {useWeb3ExecuteFunction} from 'react-moralis'
 import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
 import { UserOutlined } from '@ant-design/icons';
+import Mug from "../../assets/images/mug.jpg";
 import { ethToInr } from "../../utils/unitconvert";
 import AntdProgress from "../ProgressBar/AntdProgress";
 import { inPercentage } from './../../utils/percent';
-export default function CampaignCard({data}) {
+import Button from "../Button/Button";
+import Usefetch from "../../utils/Usefetch";
+import { sharkblockABI } from "../../abi";
+
+export default function DashboardCard({data}) {
   const navigate = useNavigate();
+  const { data: onclosedata, fetch: onClose } = useWeb3ExecuteFunction({
+    abi: sharkblockABI,
+    contractAddress: data.address,
+    functionName: "closeCampaign",
+  });
+  const { data: onwithdrawdata, fetch: onwithdraw, isFetching, isLoading, error } = useWeb3ExecuteFunction({
+    abi: sharkblockABI,
+    contractAddress: data.address,
+    functionName: "tranferFromCampaign",
+  });
   const handleNavigate = () => {
     if(data.status == '1'){
-      navigate(`/campaign/${data?.address}`);
-      } else {
-        message.info("Campaign is closed");
-      }
+    navigate(`/campaign/${data?.address}`);
+    } else {
+      message.info("Campaign is closed");
+    }
   }
 
+   React.useEffect(()=>{
+console.log("withdraw", onwithdrawdata, isFetching, isLoading);
+console.error("error", error)
+   },[onwithdrawdata, isFetching, isLoading])
 
   return (
-    <div onClick={handleNavigate} className="campaigncard_container">
-      <div className="img_container">
+    <div  className="dash_campaigncard_container">
+      <div onClick={handleNavigate} className="img_container">
         <img src={data?.images[0]} alt="" />
       </div>
       <div>
@@ -49,11 +69,8 @@ export default function CampaignCard({data}) {
           </span>
         </div>
         <div className="created_by">
-        <Avatar style={{ backgroundColor: '#4cc899', margin: '20px 5px' }} size='large' icon={<UserOutlined />} />
-         <div>
-           <h6>Created by</h6>
-           <p>Anil Pujari</p>
-         </div>
+        <Button style={{width: '120px', margin: '5px'}} onClick={onwithdraw}> WITHDRAW </Button>
+        <Button style={{width: '120px', margin: '5px 10px'}} onClick={onClose}> CLOSE </Button>
         </div>
       </div>
     </div>

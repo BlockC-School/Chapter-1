@@ -1,6 +1,6 @@
 import React from "react";
 // import Progress from "../ProgressBar/Progress";
-import { useMoralisFile } from 'react-moralis'
+import { useMoralisFile, useMoralis } from 'react-moralis'
  import Moralis from "moralis";
 // import {Buffer} from 'buffer';
 import { ethers } from "ethers";
@@ -22,6 +22,7 @@ export default function LandingHeader() {
    const [file, setFile] = React.useState(null);
    const [uploaded, setFileuploaded]= React.useState(false);
    const [loading, setIsloading]= React.useState(false);
+   const [error, setError]= React.useState(false);
    const [fileUrls, setFileUrls] = React.useState([]);
    const [form, setForm] = React.useState({
      category: "",
@@ -32,12 +33,8 @@ export default function LandingHeader() {
      endDate:""
    })
   const { Dragger } = Upload;
-  const {
-    error,
-    isUploading,
-    moralisFile,
-    saveFile,
-  } = useMoralisFile();
+  const allfields = form.category && form.title && form.description && form.goal && form.startDate && form.endDate && uploaded;
+  const {user, isAuthenticated} = useMoralis()
 
   const handleInput =(e) => {
     const { name, value } = e.target;
@@ -51,7 +48,8 @@ export default function LandingHeader() {
   }
 
   const handleUpload = async (file) => {
-    message.info("File is uploading..");
+    message.loading("File is uploading..");
+    setIsloading(true);
      try {
       const file1 = new Moralis.File(file.name , file);
       await file1.saveIPFS();
@@ -59,8 +57,11 @@ export default function LandingHeader() {
       message.success("File uploaded successfully");
       setFileuploaded(true);
       setFileUrls([...fileUrls, fileURL]);
+      setIsloading(false);
      } catch (error) {
         console.error(error);
+        setIsloading(false);
+        message.error("File upload failed");
      }
   }
 
@@ -73,48 +74,29 @@ export default function LandingHeader() {
      _goal: ethers.utils.parseEther(`${form.goal || 0}`) ,
      _startDate:dateinSec(new Date(form.startDate)),
      _endDate: dateinSec(new Date(form.endDate)),
-     _images: fileUrls
-    },
-    value: '1000000'
+     _images: fileUrls,
+     _owner: user? user.get('ethAddress'): '0x0'
+    }
   });
 
   const handleModal =(bool) =>{
-    setIsModelVisible(bool);
+    if(isAuthenticated){
+      setIsModelVisible(bool);
+    } else {
+      message.error("Please login to create a campaign");
+    }
+    
   }
 
   const handleSubmit = async (e) =>{
-    e.preventDefault();
-
     fetch();
     handleModal(false);
-    // try {
-    //   const file1 = new Moralis.File(file.name , file);
-    //   await file1.saveIPFS();
-    //   const fileURL = file1.ipfs();
-    //   setFileUrls([...fileUrls, fileURL]);
-    //   console.log("fileURL", fileURL);
-    // } catch (error) {
-    //   console.error(error);
-    // }
-  }
-
-  // React.useEffect(() => {
-  //   let frm = form.category && form.title && form.description && form.goal && form.startDate && form.endDate;
-  //   let file = fileUrls.length > 0;
-  //   console.log("form", frm ,form);
-  //   console.log("file", file, fileUrls);
-  //  if(frm && file){
-  //   console.log("form", form);
-  //   console.log("file", fileUrls);
-   
-  //  }
-  // }, form, fileUrls)
-
+  };
  
   React.useEffect(()=>{
-   if(error){
-     console.error("error", error)
-   } 
+ if(user){
+  console.log("user", user.get('ethAddress'), user);
+ }
    console.log("file", isFetching, isLoading, data);
   },[isFetching, isLoading, data])
 
@@ -124,7 +106,7 @@ export default function LandingHeader() {
     <>
     <div className="landing_container">
       <div className="landing_header_container">
-        {/* <Header /> */}
+        <Header />
       </div>
       <div className="welcome_container">
         <div className="welcome_content">
@@ -170,20 +152,9 @@ export default function LandingHeader() {
       <Input required onChange={handleInput} type='date' name="endDate" className="input_class"  placeholder="End Date"/>
       </div>
         <input type='file' required  onChange={(e)=> handleUpload(e.target.files[0])} />
-         {/* <Dragger 
-          customRequest={dummyRequest}
-          onChange={onChange}
-         >
-    <p className="ant-upload-drag-icon">
-      <InboxOutlined />
-    </p>
-    <p className="ant-upload-text">Click or drag file to this area to upload</p>
-    <p className="ant-upload-hint">
-      Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-      band files
-    </p>
-  </Dragger> */}
-  <Button  onClick={handleSubmit} disabled={!uploaded}>SUBMIT</Button>
+        <span style={{color: '#4cc899'}}>{loading && "File is uploading.."}</span>
+  
+  <Button  onClick={handleSubmit} disabled={!uploaded && !allfields}>SUBMIT</Button>
     </Modal>
     </>
   );

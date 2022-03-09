@@ -59,9 +59,63 @@ export const factoryABI = [
 				"internalType": "string[]",
 				"name": "_images",
 				"type": "string[]"
+			},
+			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
 			}
 		],
 		"name": "createCampaign",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_avatar",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_addr",
+				"type": "address"
+			}
+		],
+		"name": "createNewUser",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "deleteCampaign",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"name": "deleteUser",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -90,29 +144,6 @@ export const factoryABI = [
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_avatar",
-				"type": "string"
-			},
-			{
-				"internalType": "address",
-				"name": "_addr",
-				"type": "address"
-			}
-		],
-		"name": "setNewUser",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -245,6 +276,11 @@ export const sharkblockABI = [
 				"internalType": "string[]",
 				"name": "_images",
 				"type": "string[]"
+			},
+			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -561,6 +597,11 @@ export const sharkblockABI = [
 				"internalType": "string[]",
 				"name": "_images",
 				"type": "string[]"
+			},
+			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
 			}
 		],
 		"name": "init",
@@ -625,6 +666,19 @@ export const sharkblockABI = [
 				"internalType": "address",
 				"name": "addr",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "status",
+		"outputs": [
+			{
+				"internalType": "enum Sharkblock.Status",
+				"name": "",
+				"type": "uint8"
 			}
 		],
 		"stateMutability": "view",
