@@ -1,9 +1,9 @@
 import React from 'react'
-import CustomBtn from './FundBtn'
+import CustomBtn from './action/FundBtn'
 // import logo from '../logo.svg'
 import {Toolbar, Typography} from '@material-ui/core'
 import {makeStyles} from "@material-ui/core/styles"; 
-import Header from './Onboard';
+import Header from './action/Onboard';
 
 const styles = makeStyles({
     bar:{
