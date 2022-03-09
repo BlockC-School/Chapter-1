@@ -12,7 +12,8 @@ contract CampaignFactory is OpenFunds{
 // CRUD Events
     event Cancel(uint id);
     event Pledge(uint indexed id,address indexed caller, uint amount);
-
+    event Refund(uint indexed _id,address indexed caller,uint amount);
+    event Unpledge(uint indexed id,address indexed caller, uint amount);
     event Launch(
         uint id, 
         address indexed creator,
@@ -34,8 +35,8 @@ contract CampaignFactory is OpenFunds{
     mapping(uint => mapping(address => uint)) public pledgeAmount;
     
     IERC20 public immutable token;
-
-    constructor(address _token) OpenFunds(0.6 ether,0) {
+// making IERC20 frame for each Campaigns
+    constructor(address _token) OpenFunds(333,0)  {
         token = IERC20(_token);
     }
     function launch(
@@ -66,10 +67,46 @@ contract CampaignFactory is OpenFunds{
         delete campaigns[_id];
         emit Cancel(_id);
      }
-    function pledge(uint _id,uint _amount) external { }
-    function unpledge(uint _id,uint _amount) external { }
-    function claim(uint _id) external { }
-    function refund(uint _id) external { }
+    function pledge(uint _id,uint _amount) external {
+        Campaign storage campaign = campaigns[_id];
+        require(block.timestamp >= campaign.startAt, 'Not started yet');
+        require(block.timestamp <= campaign.endAt,'Aleady ended');
+
+        campaign.pledged += _amount;
+        pledgeAmount[_id][msg.sender] += _amount;
+        token.transferFrom(msg.sender, address(this), _amount);
+
+        emit Pledge(_id, msg.sender, _amount);
+     }
+    function unpledge(uint _id,uint _amount) external {
+        Campaign storage campaign = campaigns[_id];
+        require(block.timestamp <= campaign.endAt,'ended');
+
+        campaign.pledged -= _amount;
+        pledgeAmount[_id][msg.sender] -= _amount;
+        token.transfer(msg.sender, _amount);
+     }
+    function claim(uint _id) external {
+        Campaign storage campaign = campaigns[_id];
+        require(msg.sender == campaign.creator,'Campaign not created');
+        require(block.timestamp > campaign.endAt, 'not ended');
+        require(campaign.pledged >= campaign.goal, 'pledged < goal');
+        require(!campaign.claimed,'claimed');
+
+        campaign.claimed = true;
+     }
+
+    function refund(uint _id) external { 
+        Campaign storage campaign = campaigns[_id];
+        require(block.timestamp > campaign.endAt, 'not ended');
+        require(campaign.pledged < campaign.goal, 'pledged < goal');
+        
+        uint ballance = pledgeAmount[_id][msg.sender];
+        pledgeAmount[_id][msg.sender] =0;
+        token.transfer(msg.sender, ballance);
+
+        emit Refund(_id, msg.sender, ballance);
+    }
     // Creating a event so we can get the address and store it in a Array
     
     function getCampaign() public view returns (address[] memory) {
