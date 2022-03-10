@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.3;
+import "./IERC20.sol";
 // import "../@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "../@openzeppelin/contracts/access/Ownable.sol";
+// import "../@openzeppelin/contracts/access/Ownable.sol";
 // import "../@openzeppelin/contracts/utils/Strings.sol";
-pragma solidity >=0.8.3;
 
 
-contract OpenFunds is Ownable{
+contract OpenFunds {
     // Events of Crowdfund Logic
     event ProjectCreated(string proposalId, string name, string description, uint256 fundsGoal);
     event ProjectFunded(string proposalId, uint256 value);
@@ -16,18 +16,17 @@ contract OpenFunds is Ownable{
     mapping(address => mapping(address => bool)) private _operatorApprovals;
     // TokenId => Address => Amount
     mapping(uint256 => mapping(address => uint256)) private _balances;    
-
+    uint32 public id = 0;
     // Contructor for getting input early
-    constructor(string memory _name,string memory _description,address _from,uint256 _minimum,uint256 _fundGoal) {
-        name = _name;
-        description = _description;
-        owner(); _from;
-        amount =  _minimum;
-        fundGoal = _fundGoal;
+    constructor(uint256 _fundgoal,uint32 _id) {
+        require(msg.sender != address(0) , 'not a valid account');
+        require(_fundgoal > 0.3 ether,"fund value is too low");
+        require(_id == 0,"Campaign is active");
     }
    
     string public name;
     string public description;
+    address public creator;
     uint256 public tokenCounter;
     uint256 public amount;
     uint256 public fundGoal;
@@ -54,7 +53,7 @@ contract OpenFunds is Ownable{
         uint256 fundGoal;
     }  
     Project[] public projects;
-
+    
     modifier isOwner(uint256 _projectIndex){
         require(projects[_projectIndex].owner == msg.sender, "Not a contributer"); 
         _;

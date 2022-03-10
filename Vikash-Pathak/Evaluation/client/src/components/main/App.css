@@ -1,7 +1,6 @@
 .App {
   text-align: center;
   background-color: aquamarine;
-  border-color: #282c34;
 }
 
 .App-header {
@@ -12,21 +11,13 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: black;
+  color: whitesmoke;
 }
 
 .App-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 /*
   wallet & app 
 */
