@@ -20,6 +20,33 @@ describe("Crowd funding Campaign ", () => {
     await campaign.deployed();
 
     console.log('mined at ', campaign.address);
-
+                            // 0x5FbDB2315678afecb367f032d93F642f64180aa3
   });
 });
+
+
+describe('Open Fund', function() {
+
+  before(async function() {
+    this.OpenFund = await hre.ethers.getContractFactory('OpenFunds');
+  });
+// 
+  beforeEach(async function() {
+    const fundgol =  ethers.utils.parseUnits('0.6', 18);
+    this.OpenFund = await this.OpenFund.deploy(fundgol, 0);
+    await this.OpenFund.deployed();
+  })
+
+
+  it('Should create campaign', async function() {
+    const Camp = await hre.ethers.getContractFactory('OpenFunds');
+    const fundgol =  ethers.utils.parseUnits('0.6', 18);
+    await this.OpenFund.CreateProject(1,'dodo','gogo',fundgol);
+    const createCamp = await this.OpenFund.deployed();
+
+    console.log('Project is created', createCamp.address);
+  })
+  
+
+})
+
