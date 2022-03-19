@@ -48,9 +48,6 @@ useEffect(() => {
 
    setIsAuthenticated(auth ? true : false);
    setAccount(localStorage.getItem("account")); 
-//    console.log(window.ethereum);
-//    console.log("isconnected",window.ethereum.isConnected());
-//console.log("isAuthenticated",isAuthenticated);
 }, [localStorage.getItem("isAuthenticated")]);
 
   return { account, isAuthenticated, isError , handleConnect, handleLogout };

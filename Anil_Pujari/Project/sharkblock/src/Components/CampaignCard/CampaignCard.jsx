@@ -7,22 +7,23 @@ import { UserOutlined } from "@ant-design/icons";
 import { ethToInr } from "../../utils/unitconvert";
 import AntdProgress from "../ProgressBar/AntdProgress";
 import { inPercentage } from "./../../utils/percent";
-import Ethereum from "../../assets/images/ethereum.png";
+
 export default function CampaignCard({ data }) {
   const navigate = useNavigate();
   const handleNavigate = () => {
-    console.log("data", data);
-    if (data.status == "1") {
-      navigate(`/campaign/${data?.address}`);
-    } else {
-      message.info("Campaign is closed");
-    }
+    navigate(`/campaign/${data?.address}`);
   };
 
   return (
     <div onClick={handleNavigate} className="campaigncard_container">
       <div className="img_container">
-        <img src={data?.images[0] || Ethereum} alt="" />
+        <img
+          src={
+            data?.images[0] ||
+            "https://bafybeievw2qrhzyqbvag64neneiumyttimldwzfuredqkg6zpexyroysxu.ipfs.infura-ipfs.io/"
+          }
+          alt=""
+        />
       </div>
       <div>
         <AntdProgress
