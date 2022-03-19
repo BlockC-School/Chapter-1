@@ -5,7 +5,6 @@ import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
 import { ethToInr } from "../../utils/unitconvert";
 import AntdProgress from "../ProgressBar/AntdProgress";
-import Ethereum from "../../assets/images/ethereum.png";
 import { inPercentage } from './../../utils/percent';
 import Button from "../Button/Button";
 import { sharkblockABI } from "../../abi";
@@ -29,7 +28,6 @@ export default function DashboardCard({data}) {
       sharkblockABI,
       signer
     );
-   console.log("signer contract", contract);
    const tx = await contract.tranferFromCampaign({
     gasLimit: 250000
     });
@@ -46,7 +44,6 @@ export default function DashboardCard({data}) {
       sharkblockABI,
       signer
     );
-   console.log("signer contract", contract);
    const tx = await contract.closeCampaign({
     gasLimit: 250000
     });
@@ -59,7 +56,7 @@ export default function DashboardCard({data}) {
   return (
     <div  className="dash_campaigncard_container">
       <div onClick={handleNavigate} className="img_container">
-        <img src={data?.images[0] || Ethereum} alt="" />
+        <img src={data?.images[0] || 'https://bafybeievw2qrhzyqbvag64neneiumyttimldwzfuredqkg6zpexyroysxu.ipfs.infura-ipfs.io/'} alt="" />
       </div>
       <div>
     <AntdProgress percent={data?.goal && inPercentage(ethers.utils.formatUnits(data?.pledged),ethers.utils.formatUnits(data?.goal)) || 0} />

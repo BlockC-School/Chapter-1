@@ -1,13 +1,12 @@
 import React from "react";
-import { Tooltip, message, Popover } from "antd";
-import { useMoralis } from "react-moralis";
+import { Tooltip, Popover } from "antd";
 import Button from "../Button/Button";
-import { UnlockFilled, WalletFilled, UserOutlined } from "@ant-design/icons";
+import { WalletFilled, UserOutlined } from "@ant-design/icons";
 import logo from "../../assets/images/logo.jpg";
 import metamaskicon from "../../assets/images/metamask.webp";
 import "./Header.scss";
 import { useNavigate } from 'react-router-dom';
-import { ethers } from 'ethers';
+
 import useAccount from "../../utils/useAccount";
 export default function Header() {
   // const { authenticate, isAuthenticated, user, logout, authError } = useMoralis();

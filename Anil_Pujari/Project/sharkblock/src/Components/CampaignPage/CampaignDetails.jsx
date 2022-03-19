@@ -1,7 +1,6 @@
 import React from "react";
 import { Input, Button, Avatar, Tabs, Select, message } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { useMoralis } from "react-moralis";
 import { ethers } from "ethers";
 import AntdProgress from "../ProgressBar/AntdProgress";
 import { sharkblockABI } from "../../abi";
@@ -11,7 +10,7 @@ import { ethToInr, weiToGwei } from "../../utils/unitconvert";
 import { inPercentage } from "./../../utils/percent";
 import { weiToEth } from "./../../utils/unitconvert";
 import Loader from "./../loader/Loader";
-import Etherium from "../../assets/images/ethereum.png";
+//import Mug from "https://bafybeievw2qrhzyqbvag64neneiumyttimldwzfuredqkg6zpexyroysxu.ipfs.infura-ipfs.io";
 
 function toDateTime(secs) {
   var t = new Date(1970, 0, 1); // Epoch
@@ -42,7 +41,6 @@ export default function CampaignDetails() {
       const signer = await web3Provider.getSigner();
       //const getGasprice = await signer.getGasPrice();
       const contract = new ethers.Contract(addr, sharkblockABI, signer);
-      console.log("signer contract", contract);
       const tx = await contract.investNow({
         gasLimit: 210000,
         value: inputValue[select],
@@ -51,7 +49,6 @@ export default function CampaignDetails() {
       setTimeout(() => {
         setIsLoading(false);
       }, 3000);
-      console.log("tx", tx);
     } else {
       message.info("Campaign is closed already !");
     }
@@ -60,20 +57,19 @@ export default function CampaignDetails() {
   const { Option } = Select;
 
   const handleInvest = () => {
-    console.log('isAuthenticated', isAuthenticated);
-    if (isAuthenticated == 'true') {
-        handleInvestFetch();
+    if (isAuthenticated == "true") {
+      handleInvestFetch();
     } else {
       message.info("Please login to invest");
     }
   };
 
-  React.useEffect(() => { 
-       setIAuthenticate(localStorage.getItem("isAuthenticated"));
-       if (campaignDetails?.status == "1") {
-        message.error("Campaign is already Closed");
-      }
-  }, [localStorage.getItem("isAuthenticated"), campaignDetails]); 
+  React.useEffect(() => {
+    setIAuthenticate(localStorage.getItem("isAuthenticated"));
+    if (campaignDetails?.status == "1") {
+      message.error("Campaign is already Closed");
+    }
+  }, [localStorage.getItem("isAuthenticated"), campaignDetails]);
 
   React.useEffect(() => {
     if (!isLoading) {
@@ -83,11 +79,19 @@ export default function CampaignDetails() {
       const provider = ethers.getDefaultProvider("rinkeby");
       const sharkcontract = new ethers.Contract(addr, sharkblockABI, provider);
       (async () => {
-        let sharkblock = await sharkcontract.getCampaignDetails();
-        let images = await sharkcontract.getImages();
-        let _balance = await sharkcontract.getMyCampaignFund();
-        let transaction = await sharkcontract.getTransactions();
-        let status = await sharkcontract.status();
+        // let sharkblock = await sharkcontract.getCampaignDetails();
+        // let images = await sharkcontract.getImages();
+        // let _balance = await sharkcontract.getMyCampaignFund();
+        // let transaction = await sharkcontract.getTransactions();
+        // let status = await sharkcontract.status();
+        let [sharkblock, images, _balance, transaction, status] =
+          await Promise.all([
+            sharkcontract.getCampaignDetails(),
+            sharkcontract.getImages(),
+            sharkcontract.getMyCampaignFund(),
+            sharkcontract.getTransactions(),
+            sharkcontract.status(),
+          ]);
         let obj = {
           ...sharkblock,
           images: images,
@@ -96,7 +100,6 @@ export default function CampaignDetails() {
           status,
           address: sharkcontract.address,
         };
-        console.log("sharkblock", obj);
         setCampaignDetails(obj);
       })();
     }
@@ -109,13 +112,19 @@ export default function CampaignDetails() {
       <div className="campaign_container">
         <div className="campaign_brif">
           <div className="img_container">
-            {campaignDetails?.images?.[0] && (
-              <img src={campaignDetails?.images?.[0] || Etherium} alt="" />
+            {campaignDetails?.images && (
+              <img
+                src={
+                  campaignDetails?.images?.[0] ||
+                  "https://bafybeievw2qrhzyqbvag64neneiumyttimldwzfuredqkg6zpexyroysxu.ipfs.infura-ipfs.io/"
+                }
+                alt=""
+              />
             )}
             <div>
               {campaignDetails?.images?.length > 0 &&
                 campaignDetails?.images?.map((img, i) => (
-                  <img key={i} src={img || Etherium} alt="" />
+                  <img key={i} src={img} alt="" />
                 ))}
             </div>
           </div>
@@ -197,7 +206,6 @@ export default function CampaignDetails() {
                 />
                 <Select
                   className="select_value"
-
                   defaultValue="ETH"
                   onChange={(e) => setSelect(e)}
                   style={{ width: "80px" }}
@@ -211,7 +219,7 @@ export default function CampaignDetails() {
               <div>
                 <Button
                   onClick={handleInvest}
-                  disabled = {campaignDetails?.status == "1"}
+                  disabled={campaignDetails?.status == "1"}
                   className="invest_button"
                   type="primary"
                 >
