@@ -14,11 +14,13 @@ import { useMoralis } from "react-moralis";
 import DashboardCard from "../CampaignCard/DashBoardCard";
 import Loader from './../loader/Loader';
 import Usefetch from "../../utils/Usefetch";
+import useAccount from "../../utils/useAccount";
 
 
 export default function Dashboard({ contract }) {
   const { Sider } = Layout;
-  const { user, isAuthenticated } = useMoralis();
+  // const { user, isAuthenticated } = useMoralis();
+  const {isAuthenticated, account} = useAccount()
   const [allCampainAddr, setAllCampainAddr] = React.useState([]);
   const [allcampaigndetailsArray, setAllcampaigndetailsArray] = React.useState(
     []
@@ -30,6 +32,7 @@ export default function Dashboard({ contract }) {
     (async () => {
       const allCampaignAddr = await contract.getAllCampaignAddress();
       setAllCampainAddr(allCampaignAddr);
+      console.log("allCampaignAddr", allCampaignAddr);
     })();
   }, [contract]);
 
@@ -39,7 +42,7 @@ export default function Dashboard({ contract }) {
     if (isAuthenticated) {
       (async () => {
         const detailArray = [];
-        const userAddr = user.get("ethAddress");
+        const userAddr = account;
         for (const addr of allCampainAddr) {
         
             const sharkcontract = new ethers.Contract(
@@ -66,6 +69,8 @@ export default function Dashboard({ contract }) {
             };
             console.log("obj", obj);
             detailArray.push(obj);
+          } else {
+            
           }
         }
         setAllcampaigndetailsArray(detailArray);

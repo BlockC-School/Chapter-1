@@ -1,29 +1,32 @@
 import React from "react";
 import { Input, Button, Avatar, Tabs, Select, message } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import {
-  useMoralis,
-  useWeb3ExecuteFunction,
-} from "react-moralis";
+import { useMoralis } from "react-moralis";
 import { ethers } from "ethers";
-import Mug from "../../assets/images/mug.jpg";
-import Ethereum from "../../assets/images/ethereum1.png";
 import AntdProgress from "../ProgressBar/AntdProgress";
 import { sharkblockABI } from "../../abi";
 import "./CampaignDetails.scss";
 import { useParams } from "react-router-dom";
 import { ethToInr, weiToGwei } from "../../utils/unitconvert";
 import { inPercentage } from "./../../utils/percent";
-import Usefetch from "../../utils/Usefetch";
 import { weiToEth } from "./../../utils/unitconvert";
 import Loader from "./../loader/Loader";
+import Etherium from "../../assets/images/ethereum.png";
+
+function toDateTime(secs) {
+  var t = new Date(1970, 0, 1); // Epoch
+  t.setSeconds(secs).toString();
+  let news = new Date(t);
+  return news.toDateString();
+}
 
 export default function CampaignDetails() {
   const { TabPane } = Tabs;
   const [campaignDetails, setCampaignDetails] = React.useState({});
-  const {isAuthenticated} = useMoralis();
+  const [isAuthenticated, setIAuthenticate] = React.useState(false);
   const [input, setInput] = React.useState("");
   const [select, setSelect] = React.useState("ETH");
+  const [isLoading, setIsLoading] = React.useState(false);
   const { addr } = useParams();
 
   const inputValue = {
@@ -32,32 +35,50 @@ export default function CampaignDetails() {
     WEI: input,
   };
 
-  const { data, fetch, isFetching, isLoading } = useWeb3ExecuteFunction({
-    contractAddress: addr,
-    abi: sharkblockABI,
-    functionName: "investNow",
-    msgValue: inputValue[select],
-  });
-
-  const { Option } = Select;
-  const handleTabs = (e) => {
-    console.log(e);
+  const handleInvestFetch = async () => {
+    if (campaignDetails.status == "0") {
+      setIsLoading(true);
+      const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = await web3Provider.getSigner();
+      //const getGasprice = await signer.getGasPrice();
+      const contract = new ethers.Contract(addr, sharkblockABI, signer);
+      console.log("signer contract", contract);
+      const tx = await contract.investNow({
+        gasLimit: 210000,
+        value: inputValue[select],
+      });
+      tx.wait();
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
+      console.log("tx", tx);
+    } else {
+      message.info("Campaign is closed already !");
+    }
   };
 
+  const { Option } = Select;
+
   const handleInvest = () => {
-    if(isAuthenticated){
-      fetch();
+    console.log('isAuthenticated', isAuthenticated);
+    if (isAuthenticated == 'true') {
+        handleInvestFetch();
     } else {
-    message.info("Please login to invest");
+      message.info("Please login to invest");
     }
-  }
-  React.useEffect(() => {
-    console.log("input", input);
-    console.log("select", select);
-    console.log("inputValue", inputValue);
-  }, [select, input]);
+  };
+
+  React.useEffect(() => { 
+       setIAuthenticate(localStorage.getItem("isAuthenticated"));
+       if (campaignDetails?.status == "1") {
+        message.error("Campaign is already Closed");
+      }
+  }, [localStorage.getItem("isAuthenticated"), campaignDetails]); 
 
   React.useEffect(() => {
+    if (!isLoading) {
+      setCampaignDetails({});
+    }
     if (addr) {
       const provider = ethers.getDefaultProvider("rinkeby");
       const sharkcontract = new ethers.Contract(addr, sharkblockABI, provider);
@@ -66,48 +87,35 @@ export default function CampaignDetails() {
         let images = await sharkcontract.getImages();
         let _balance = await sharkcontract.getMyCampaignFund();
         let transaction = await sharkcontract.getTransactions();
-
+        let status = await sharkcontract.status();
         let obj = {
           ...sharkblock,
           images: images,
           pledged: _balance,
           transaction,
+          status,
           address: sharkcontract.address,
         };
         console.log("sharkblock", obj);
         setCampaignDetails(obj);
       })();
     }
-  }, [isLoading, isFetching, data]);
-  function toDateTime(secs) {
-    var t = new Date(1970, 0, 1); // Epoch
-    t.setSeconds(secs).toString();
-    let news = new Date(t).toUTCString().toString();
-    return news;
-  }
-  React.useEffect(() => {
-    console.log("campaignDetails", campaignDetails);
-    if (campaignDetails?.startDate) {
-      console.log(
-        "time",
-        toDateTime(ethers.utils.formatUnits(campaignDetails?.startDate, "wei"))
-      );
-    }
-  }, [campaignDetails]);
+  }, [addr, isLoading]);
 
   return (
     <>
+      {isLoading && <Loader />}
       {!campaignDetails?.address && <Loader />}
       <div className="campaign_container">
         <div className="campaign_brif">
           <div className="img_container">
             {campaignDetails?.images?.[0] && (
-              <img src={campaignDetails?.images?.[0]} alt="" />
+              <img src={campaignDetails?.images?.[0] || Etherium} alt="" />
             )}
             <div>
               {campaignDetails?.images?.length > 0 &&
                 campaignDetails?.images?.map((img, i) => (
-                  <img key={i} src={img} alt="" />
+                  <img key={i} src={img || Etherium} alt="" />
                 ))}
             </div>
           </div>
@@ -177,13 +185,19 @@ export default function CampaignDetails() {
               <div>
                 <Input
                   type="number"
+                  disabled={campaignDetails?.status == "1"}
                   onChange={(e) => setInput(e.target.value)}
                   prefix={
-                    <img src='https://ipfs.moralis.io:2053/ipfs/QmXKYQE5tLZ4ieo3G31LT3hZw6upX4JXr4TJK5g4qdZf7f' className="ethereum_icon" alt="" />
+                    <img
+                      src="https://ipfs.moralis.io:2053/ipfs/QmXKYQE5tLZ4ieo3G31LT3hZw6upX4JXr4TJK5g4qdZf7f"
+                      className="ethereum_icon"
+                      alt=""
+                    />
                   }
                 />
                 <Select
                   className="select_value"
+
                   defaultValue="ETH"
                   onChange={(e) => setSelect(e)}
                   style={{ width: "80px" }}
@@ -197,6 +211,7 @@ export default function CampaignDetails() {
               <div>
                 <Button
                   onClick={handleInvest}
+                  disabled = {campaignDetails?.status == "1"}
                   className="invest_button"
                   type="primary"
                 >
@@ -219,16 +234,11 @@ export default function CampaignDetails() {
         </div>
         <div className="campaign_description">
           <div className="comapign_tabs">
-            <Tabs
-              className="custom_tab"
-              defaultActiveKey="1"
-              size="large"
-              onChange={handleTabs}
-            >
+            <Tabs className="custom_tab" defaultActiveKey="1" size="large">
               <TabPane tab="Description" key="1">
                 <p>
-               {campaignDetails?.description && campaignDetails?.description}
-              </p>
+                  {campaignDetails?.description && campaignDetails?.description}
+                </p>
               </TabPane>
               <TabPane tab="Reviews (0)" key="2">
                 No reviews yet!
@@ -275,18 +285,15 @@ export default function CampaignDetails() {
 }
 
 function Transaction({ transaction }) {
-  function toDateTime(secs) {
-    var t = new Date(1970, 0, 1); // Epoch
-    t.setSeconds(secs).toString();
-    let news = new Date(t).toUTCString().toString();
-    return news;
-  }
-  console.log("date==>",toDateTime('1646551497'));
   return (
     <div className="transaction_record">
       <h6>{transaction.addr}</h6>{" "}
       <p>{ethers.utils.formatUnits(transaction.amount)}</p>{" "}
-      <p>{ toDateTime(ethers.utils.formatUnits(transaction.date, "wei").toString())}</p>
+      <p>
+        {toDateTime(
+          ethers.utils.formatUnits(transaction.date, "wei").toString()
+        )}
+      </p>
     </div>
   );
 }
