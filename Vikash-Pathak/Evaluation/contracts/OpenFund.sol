@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.3;
+pragma solidity ^0.8.3;
+
 import "./IERC20.sol";
 // import "../@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 // import "../@openzeppelin/contracts/access/Ownable.sol";
@@ -104,8 +105,8 @@ contract OpenFunds {
     function Fund(uint256 _amount) public payable {
         require(_amount >= msg.value,"" );
         tokenCounter += 1;
-        uint256 reqFund = fundGoal - _amount;
-        requiredFund = reqFund;
+        // uint256 reqFund = fundGoal - _amount;
+        // requiredFund = reqFund;
     }
 // Changing current state    
     function ChangeState(CurrentState _newState,uint256 projectId) public isOwner(projectId) {

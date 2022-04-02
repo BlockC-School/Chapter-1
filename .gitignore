@@ -2,3 +2,5 @@
 .netlify
 .idea
 node_modules
+artifacts/
+package-lock.json

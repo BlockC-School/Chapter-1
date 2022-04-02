@@ -1,0 +1,31 @@
+{
+  "name": "open-crowd-funding",
+  "version": "1.0.0",
+  "description": "A Distributed Control crowd funding { test } ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "erc1155",
+    "crowdfunding",
+    "dao"
+  ],
+  "author": "Vikash Pathak",
+  "license": "ISC",
+  "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.5",
+    "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@openzeppelin/contracts": "^4.5.0",
+    "axios": "^0.26.0",
+    "chai": "^4.3.6",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.5.4",
+    "hardhat": "^2.9.1",
+    "ipfs-http-client": "^56.0.1",
+    "web3modal": "^1.9.5"
+  },
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.15"
+  }
+}
