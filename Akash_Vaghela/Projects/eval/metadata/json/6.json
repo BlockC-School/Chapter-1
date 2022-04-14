@@ -1,0 +1,32 @@
+{
+    "name": "Upgrade Suit",
+    "description": "The Upgrade Suit is a suit that was formed when Rex Salazar and Upgrade fused together.",
+    "image": "https://ipfs.io/ipfs/QmbciVRnBFHZeuZFiCwLDmCReGnXub49NNsZ6rhp6a7b8s/6.png",
+    "attributes": [
+        {
+            "trait_type": "Technokinesis",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Optic Beams",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Regeneration",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Size Alteration",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Body Alteration",
+            "value": 9,
+            "max_value": 10
+        }
+    ]
+}

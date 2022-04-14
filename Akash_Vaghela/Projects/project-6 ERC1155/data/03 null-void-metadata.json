@@ -1,0 +1,32 @@
+{
+    "name": "Null Void Projector",
+    "description": "The Null Void Projector is a device used to create a portal to the Null Void.",
+    "image": "https://ipfs.io/ipfs/QmasjQrWWvhPgmsNx7mqnPJ2ehHmzknodcQ1ajmZqzGxtV",
+    "attributes": [
+        {
+            "trait_type": "Strength",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Durability",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Regeneration",
+            "value": 5,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Power",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Technology",
+            "value": 7,
+            "max_value": 10
+        }
+    ]
+}

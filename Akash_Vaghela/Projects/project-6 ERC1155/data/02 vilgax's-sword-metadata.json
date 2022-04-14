@@ -1,0 +1,32 @@
+{
+    "name": "Vilgax's Sword",
+    "description": "Vilgax's Sword is a weapon used by Vilgax.",
+    "image": "https://ipfs.io/ipfs/QmRBjAM5v6p3NcuzBA6XKF9X4PYWQpNKMXLm9Zb4M8D1V2",
+    "attributes": [
+        {
+            "trait_type": "Strength",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Durability",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Regeneration",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Power",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Elasticity",
+            "value": 6,
+            "max_value": 10
+        }
+    ]
+}

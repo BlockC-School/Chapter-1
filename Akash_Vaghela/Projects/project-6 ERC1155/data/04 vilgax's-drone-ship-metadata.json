@@ -1,0 +1,32 @@
+{
+    "name": "Vilgax's Drone Ship",
+    "description": "Vilgax's Ship is a ship Vilgax created while he was on Earth. It is the current incarnation of the Chimerian Hammer.",
+    "image": "https://ipfs.io/ipfs/QmfXhCoqJMAYFK998qGAoNbju5mk1FcgjE9aedH5vdE8kJ",
+    "attributes": [
+        {
+            "trait_type": "Strength",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Durability",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Regeneration",
+            "value": 5,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Power",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Technology",
+            "value": 9,
+            "max_value": 10
+        }
+    ]
+}

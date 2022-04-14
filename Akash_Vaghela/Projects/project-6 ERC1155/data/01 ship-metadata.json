@@ -1,0 +1,32 @@
+{
+    "name": "Ship",
+    "description": "Ship is a dog-like Galvanic Mechamorph who was born on Earth and was adopted by Julie Yamamoto.",
+    "image": "https://ipfs.io/ipfs/QmXXtzPQipXAG4P2LfhjX6iCDBi1TcVJshdqthidMUXSXX",
+    "attributes": [
+        {
+            "trait_type": "Technokinesis",
+            "value": 9,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Optic Beams",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Regeneration",
+            "value": 8,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Size Alteration",
+            "value": 7,
+            "max_value": 10
+        },
+        {
+            "trait_type": "Body Alteration",
+            "value": 9,
+            "max_value": 10
+        }
+    ]
+}
